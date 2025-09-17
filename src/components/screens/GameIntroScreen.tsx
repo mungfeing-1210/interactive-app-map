@@ -61,17 +61,8 @@ const GameIntroScreen: React.FC = () => {
   const IconComponent = currentGame.icon;
 
   const handleStart = () => {
-    // Skip gameplay and go directly to game end with simulated score
-    const simulatedScore = Math.floor(Math.random() * 20) + 10; // Random score between 10-30
-    const newScores = [...(userData.scores || []), simulatedScore];
-    const newGamesCompleted = (userData.gamesCompleted || 0) + 1;
-    
-    setUserData({ 
-      scores: newScores,
-      gamesCompleted: newGamesCompleted
-    });
-    
-    navigateToScreen('game-end');
+    // 进入游戏页面
+    navigateToScreen('game-play');
   };
 
   return (

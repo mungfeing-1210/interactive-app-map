@@ -9,8 +9,13 @@ const GameEndScreen: React.FC = () => {
   const isLastGame = (userData.gamesCompleted || 0) >= (userData.totalGames || 3);
 
   const handleNext = () => {
-    // Always go to training progress screen for completion animation
-    navigateToScreen('training-progress');
+    if (isLastGame) {
+      // 如果是最后一个游戏，进入训练完成页面
+      navigateToScreen('training-progress');
+    } else {
+      // 否则进入过渡页面，准备下一个游戏
+      navigateToScreen('game-transition');
+    }
   };
 
   const getPerformanceMessage = (score: number) => {

@@ -18,12 +18,12 @@ const GameTransitionScreen: React.FC = () => {
     <div className="mobile-screen gradient-hero text-white flex flex-col items-center justify-center p-8">
       {/* Title */}
       <h1 className="text-2xl font-bold text-center mb-2 animate-fade-in">
-        Training Progress
+        训练进度
       </h1>
       
       {/* Progress Text */}
       <p className="text-white/80 text-lg mb-12 animate-fade-in" style={{ animationDelay: '0.2s' }}>
-        {userData.gamesCompleted} of {userData.totalGames}
+        第 {(userData.gamesCompleted || 0) + 1} 个游戏 / 共 {userData.totalGames} 个
       </p>
 
       {/* Circular Progress */}
