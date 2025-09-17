@@ -98,49 +98,49 @@ const TodayTab: React.FC<TodayTabProps> = ({ isDemoCompleted, onToggleDemo }) =>
         {!isDemoCompleted ? (
           // State 1: Training not completed
           <>
+            {/* Quick Start CTA */}
+            <button 
+              onClick={handleStartTraining}
+              className="btn-gradient w-full py-4 text-lg font-semibold mb-6"
+            >
+              开始训练
+            </button>
+
+            {/* Training Preview */}
             <div className="mb-6">
-              <h2 className="text-lg font-semibold text-foreground mb-4">今日記憶力訓練</h2>
-              
-              <div className="space-y-4">
+              <h2 className="text-lg font-semibold text-foreground mb-4">今日训练内容</h2>
+              <div className="grid grid-cols-3 gap-3">
                 {dailyMemoryGames.map((game, index) => {
                   const IconComponent = game.icon;
-                  const isFirstUncompleted = index === 0 && !game.completed;
-                  
                   return (
                     <div 
                       key={index} 
-                      className={`card-elevated ${isFirstUncompleted ? 'ring-2 ring-primary/30 animate-pulse' : ''}`}
+                      className="card-elevated p-4 text-center cursor-pointer hover:bg-muted/50 transition-colors"
+                      onClick={handleStartTraining}
                     >
-                      <div className="flex items-center justify-between p-4">
-                        <div className="flex items-center space-x-4 flex-1">
-                          <div className={`w-14 h-14 ${game.color} rounded-2xl flex items-center justify-center`}>
-                            <IconComponent className="w-7 h-7 text-white" />
-                          </div>
-                          <div className="flex-1">
-                            <h3 className="font-semibold text-foreground mb-1">{game.name}</h3>
-                            <p className="text-sm text-muted-foreground mb-1">{game.description}</p>
-                            <div className="flex items-center space-x-3 text-xs text-muted-foreground">
-                              <span>⏱ {game.duration}</span>
-                              <span>• {game.type}</span>
-                              <span className="text-orange-500">待完成</span>
-                            </div>
-                          </div>
-                        </div>
-                        <Play className="w-6 h-6 text-primary" />
+                      <div className={`w-12 h-12 ${game.color} rounded-xl flex items-center justify-center mx-auto mb-2`}>
+                        <IconComponent className="w-6 h-6 text-white" />
                       </div>
+                      <h3 className="text-sm font-medium text-foreground truncate">{game.name}</h3>
                     </div>
                   );
                 })}
               </div>
             </div>
 
-            {/* Main CTA */}
-            <button 
-              onClick={handleStartTraining}
-              className="btn-gradient w-full py-4 text-lg font-semibold"
-            >
-              開始訓練
-            </button>
+            {/* Locked Content Preview */}
+            <div className="opacity-50">
+              <h2 className="text-base font-medium text-foreground mb-2">完成训练后解锁</h2>
+              <div className="card-elevated p-4 flex items-center space-x-3">
+                <div className="w-10 h-10 bg-muted rounded-lg flex items-center justify-center">
+                  <TrendingUp className="w-5 h-5 text-muted-foreground" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-medium text-foreground">放松游戏</h3>
+                  <p className="text-xs text-muted-foreground">完成训练即可开始休闲模式</p>
+                </div>
+              </div>
+            </div>
           </>
         ) : (
           // State 2: Training completed
