@@ -15,28 +15,28 @@ const TodayTab: React.FC<TodayTabProps> = ({ isDemoCompleted, onToggleDemo }) =>
   // Daily memory training games (specific games mentioned in requirements)
   const dailyMemoryGames = [
     {
-      name: '隱藏的幽靈',
-      description: '記住幽靈出現的位置',
-      duration: '5-7 分鐘',
-      type: '空間記憶',
+      name: '隐藏的幽灵',
+      description: '记住幽灵出现的位置',
+      duration: '5-7 分钟',
+      type: '空间记忆',
       icon: Ghost,
       color: 'bg-primary',
       completed: false
     },
     {
-      name: '購物清單',
-      description: '記住購物清單內容',
-      duration: '6-8 分鐘',
-      type: '序列記憶',
+      name: '购物清单',
+      description: '记住购物清单内容',
+      duration: '6-8 分钟',
+      type: '序列记忆',
       icon: ShoppingCart,
       color: 'bg-accent',
       completed: false
     },
     {
-      name: '電話號碼',
-      description: '記住電話號碼序列',
-      duration: '4-6 分鐘',
-      type: '數字記憶',
+      name: '电话号码',
+      description: '记住电话号码序列',
+      duration: '4-6 分钟',
+      type: '数字记忆',
       icon: Phone,
       color: 'bg-success',
       completed: false
@@ -47,25 +47,25 @@ const TodayTab: React.FC<TodayTabProps> = ({ isDemoCompleted, onToggleDemo }) =>
   const relaxingGames = [
     {
       name: '水排序',
-      description: '將顏色分類排序',
+      description: '将颜色分类排序',
       icon: Droplet,
       color: 'bg-blue-500'
     },
     {
-      name: '連接圓點',
-      description: '連接相同顏色的點',
+      name: '连接圆点',
+      description: '连接相同颜色的点',
       icon: GitMerge,
       color: 'bg-purple-500'
     },
     {
-      name: '圖案匹配',
-      description: '找到相同的圖案',
+      name: '图案匹配',
+      description: '找到相同的图案',
       icon: Target,
       color: 'bg-green-500'
     },
     {
-      name: '色彩組合',
-      description: '組合美麗的色彩',
+      name: '色彩组合',
+      description: '组合美丽的色彩',
       icon: TrendingUp,
       color: 'bg-orange-500'
     }
@@ -89,8 +89,8 @@ const TodayTab: React.FC<TodayTabProps> = ({ isDemoCompleted, onToggleDemo }) =>
           </div>
           <Bell className="w-6 h-6 text-muted-foreground" />
         </div>
-        <h1 className="text-2xl font-bold text-foreground mb-1">今日記憶力訓練</h1>
-        <p className="text-muted-foreground">專注訓練，保持趣味性</p>
+        <h1 className="text-2xl font-bold text-foreground mb-1">今日记忆力训练</h1>
+        <p className="text-muted-foreground">专注训练，保持趣味性</p>
       </div>
 
       {/* Content - Scrollable */}
@@ -531,21 +531,21 @@ const MainAppScreen: React.FC = () => {
 
       {/* Bottom Navigation - Fixed */}
       <div className="bg-card border-t border-border shadow-soft flex-shrink-0 z-10">
-        <div className="flex h-20">
+        <div className="flex h-16 items-center px-2">
           {/* Navigation Tabs */}
-          <div className="flex flex-1">
+          <div className="flex flex-1 h-full">
             {tabs.map((tab) => {
               const IconComponent = tab.icon;
               return (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex-1 flex flex-col items-center justify-center space-y-1 transition-colors ${
+                  className={`flex-1 flex flex-col items-center justify-center py-2 transition-colors ${
                     activeTab === tab.id ? 'text-primary' : 'text-muted-foreground'
                   }`}
                 >
-                  <IconComponent className="w-5 h-5" />
-                  <span className="text-xs font-medium">{tab.labelCn}</span>
+                  <IconComponent className="w-5 h-5 mb-1" />
+                  <span className="text-xs font-medium leading-none">{tab.labelCn}</span>
                 </button>
               );
             })}
@@ -553,10 +553,10 @@ const MainAppScreen: React.FC = () => {
           
           {/* Demo State Toggle */}
           {activeTab === 'today' && (
-            <div className="flex items-center pr-4 pl-2">
+            <div className="flex items-center pl-2">
               <button
                 onClick={() => setIsDemoCompleted(!isDemoCompleted)}
-                className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
+                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
                   isDemoCompleted 
                     ? 'bg-success/20 text-success hover:bg-success/30' 
                     : 'bg-primary/20 text-primary hover:bg-primary/30'
