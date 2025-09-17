@@ -23,78 +23,43 @@ const GameEndScreen: React.FC = () => {
   const PerformanceIcon = performance.icon;
 
   return (
-    <div className="mobile-screen bg-background flex flex-col h-full">
+    <div className="mobile-screen bg-gradient-to-b from-blue-500 to-purple-600 flex flex-col h-full text-white">
       {/* Header */}
-      <div className="text-center p-8 pt-12 pb-6 flex-shrink-0">
-        <div className={`w-20 h-20 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center mx-auto mb-4 ${performance.color}`}>
-          <PerformanceIcon className="w-10 h-10" />
+      <div className="pt-8 px-6">
+        <button
+          onClick={() => navigateToScreen('main-app')}
+          className="w-10 h-10 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+          </svg>
+        </button>
+      </div>
+
+      {/* Content */}
+      <div className="flex-1 flex flex-col items-center justify-center px-8">
+        <div className="w-24 h-24 bg-white/10 rounded-full flex items-center justify-center mb-8">
+          <Trophy className="w-12 h-12" />
         </div>
-        <h1 className="text-2xl font-bold text-foreground mb-2">
-          训练完成！
+        
+        <h1 className="text-3xl font-bold mb-4">
+          恭喜！
         </h1>
-        <p className={`font-semibold ${performance.color}`}>
-          {performance.message}
-        </p>
-      </div>
 
-      {/* Content - Scrollable */}
-      <div className="flex-1 overflow-y-auto px-8">
-        {/* Score Display */}
-        <div className="card-elevated text-center mb-8">
-          <h2 className="text-4xl font-bold text-primary mb-2">{currentScore}</h2>
-          <p className="text-muted-foreground mb-4">您的得分</p>
-          
-          {/* Comparison */}
-          <div className="bg-muted rounded-2xl p-4">
-            <p className="text-foreground font-semibold mb-1">
-              超过了 {Math.min(Math.floor((currentScore / 300) * 100), 99)}% 的用户
-            </p>
-            <p className="text-sm text-muted-foreground">
-              基于同类型训练的历史数据
-            </p>
-          </div>
-        </div>
-
-        {/* Stats */}
-        <div className="grid grid-cols-3 gap-4 mb-8">
-          <div className="text-center">
-            <p className="text-2xl font-bold text-accent">{currentScore}</p>
-            <p className="text-xs text-muted-foreground">总分</p>
-          </div>
-          <div className="text-center">
-            <p className="text-2xl font-bold text-success">{Math.floor(currentScore / 10)}</p>
-            <p className="text-xs text-muted-foreground">命中次数</p>
-          </div>
-          <div className="text-center">
-            <p className="text-2xl font-bold text-primary">{userData.gamesCompleted}</p>
-            <p className="text-xs text-muted-foreground">已完成</p>
-          </div>
-        </div>
-
-        {/* Progress */}
-        <div className="mb-8">
-          <div className="flex justify-between items-center mb-2">
-            <span className="text-sm text-muted-foreground">训练进度</span>
-            <span className="text-sm text-foreground font-medium">
-              {userData.gamesCompleted}/{userData.totalGames}
-            </span>
-          </div>
-          <div className="w-full bg-muted rounded-full h-2">
-            <div 
-              className="bg-primary h-2 rounded-full transition-all duration-500"
-              style={{ width: `${((userData.gamesCompleted || 0) / (userData.totalGames || 3)) * 100}%` }}
-            ></div>
-          </div>
+        <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 w-full text-center mb-12">
+          <p className="text-lg leading-relaxed">
+            坚持训练是提高记忆力的关键。每天的小进步，都在为更强的大脑添砖加瓦！
+          </p>
         </div>
       </div>
 
-      {/* CTA Button - Fixed at bottom */}
-      <div className="p-8 pt-4 flex-shrink-0">
+      {/* CTA Button */}
+      <div className="p-8">
         <button 
           onClick={handleNext}
-          className="btn-gradient w-full"
+          className="w-full bg-white text-blue-500 font-bold py-4 rounded-2xl shadow-lg"
         >
-          {isLastGame ? 'Complete Training' : `Next game (${(userData.gamesCompleted || 0) + 1}/${userData.totalGames})`}
+          继续训练之旅
         </button>
       </div>
     </div>
