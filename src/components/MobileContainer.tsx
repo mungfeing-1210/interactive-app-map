@@ -38,9 +38,11 @@ const MobileContainer: React.FC<MobileContainerProps> = ({
             </button>
           </div>
         )}
-        <div className="mobile-screen">
+        <div className="mobile-screen relative">
           {children}
         </div>
+        {/* Safe Area Bottom Padding */}
+        <div className="h-[env(safe-area-inset-bottom,0px)]" />
       </div>
     </div>
   );

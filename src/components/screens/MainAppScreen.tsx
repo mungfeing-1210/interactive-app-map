@@ -99,9 +99,9 @@ const TodayTab: React.FC<TodayTabProps> = ({ isDemoCompleted, onToggleDemo }) =>
           // State 1: Training not completed
           <>
             {/* Training List */}
-            <div className="mb-6">
-              <h2 className="text-lg font-semibold text-foreground mb-4">今日训练内容</h2>
-              <div className="space-y-3">
+            <div className="mb-5">
+              <h2 className="text-lg font-semibold text-foreground mb-3">今日训练内容</h2>
+              <div className="space-y-2">
                 {dailyMemoryGames.map((game, index) => {
                   const IconComponent = game.icon;
                   const isFirst = index === 0;
@@ -114,12 +114,12 @@ const TodayTab: React.FC<TodayTabProps> = ({ isDemoCompleted, onToggleDemo }) =>
                       }`}
                       onClick={handleStartTraining}
                     >
-                      <div className="flex items-center p-4 space-x-4">
-                        <div className={`w-12 h-12 ${game.color} rounded-xl flex items-center justify-center flex-shrink-0`}>
+                      <div className="flex items-center p-3 space-x-3">
+                        <div className={`w-11 h-11 ${game.color} rounded-xl flex items-center justify-center flex-shrink-0`}>
                           <IconComponent className="w-6 h-6 text-white" />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <h3 className="text-base font-medium text-foreground mb-1">{game.name}</h3>
+                          <h3 className="text-base font-medium text-foreground">{game.name}</h3>
                           <p className="text-sm text-muted-foreground truncate">{game.type}</p>
                         </div>
                         <div className="flex-shrink-0">
@@ -135,7 +135,7 @@ const TodayTab: React.FC<TodayTabProps> = ({ isDemoCompleted, onToggleDemo }) =>
             {/* Locked Content Preview */}
             <div className="opacity-50">
               <h2 className="text-base font-medium text-foreground mb-2">完成训练后解锁</h2>
-              <div className="card-elevated p-4 flex items-center space-x-3">
+              <div className="card-elevated p-3 flex items-center space-x-3">
                 <div className="w-10 h-10 bg-muted rounded-lg flex items-center justify-center">
                   <TrendingUp className="w-5 h-5 text-muted-foreground" />
                 </div>
@@ -147,7 +147,7 @@ const TodayTab: React.FC<TodayTabProps> = ({ isDemoCompleted, onToggleDemo }) =>
             </div>
 
             {/* Bottom Padding for Floating Button */}
-            <div className="h-24" />
+            <div className="h-28" />
           </>
         ) : (
           // State 2: Training completed
@@ -538,7 +538,7 @@ const MainAppScreen: React.FC = () => {
 
       {/* Floating CTA Button - Only show in today tab when not completed */}
       {activeTab === 'today' && !isDemoCompleted && (
-        <div className="fixed bottom-16 left-0 right-0 px-4 pb-4 bg-gradient-to-t from-background via-background/95 to-transparent z-20 pt-6">
+        <div className="absolute bottom-16 left-0 right-0 px-4 pb-4 bg-gradient-to-t from-background via-background/95 to-transparent z-20 pt-6">
           <button 
             onClick={() => setIsDemoCompleted(true)}
             className="btn-gradient w-full py-4 text-lg font-semibold rounded-xl shadow-lg"
