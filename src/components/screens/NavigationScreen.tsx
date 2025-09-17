@@ -21,7 +21,8 @@ const NavigationScreen: React.FC = () => {
     { id: 'training-progress', title: '训练进度', screen: 'training-progress' as const, category: '进度系统' },
     { id: 'goal-setting', title: '目标设置', screen: 'goal-setting' as const, category: '设置流程' },
     { id: 'streak-celebration', title: '连胜庆祝', screen: 'streak-celebration' as const, category: '成就系统' },
-    { id: 'main-app', title: '主界面', screen: 'main-app' as const, category: '主应用' },
+    { id: 'main-app', title: '主界面（未完成）', screen: 'main-app' as const, category: '主应用' },
+    { id: 'completed-main-app', title: '主界面（已完成）', screen: 'completed-main-app' as const, category: '主应用' },
   ];
 
   const handleStepClick = (step: typeof screenSteps[0]) => {

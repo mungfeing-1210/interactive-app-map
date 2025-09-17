@@ -18,6 +18,7 @@ import TrainingProgressScreen from './screens/TrainingProgressScreen';
 import GoalSettingScreen from './screens/GoalSettingScreen';
 import StreakCelebrationScreen from './screens/StreakCelebrationScreen';
 import MainAppScreen from './screens/MainAppScreen';
+import CompletedMainScreen from './screens/CompletedMainScreen';
 
 const PrototypeContent: React.FC = () => {
   const { currentScreen } = useApp();
@@ -41,6 +42,7 @@ const PrototypeContent: React.FC = () => {
       case 'goal-setting': return <GoalSettingScreen />;
       case 'streak-celebration': return <StreakCelebrationScreen />;
       case 'main-app': return <MainAppScreen />;
+      case 'completed-main-app': return <CompletedMainScreen />;
       default: return <NavigationScreen />;
     }
   };

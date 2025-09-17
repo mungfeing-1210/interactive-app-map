@@ -18,7 +18,8 @@ type Screen =
   | 'goal-setting'
   | 'habit-mechanism'
   | 'streak-celebration'
-  | 'main-app';
+  | 'main-app'
+  | 'completed-main-app';
 
 interface UserData {
   age?: string;
