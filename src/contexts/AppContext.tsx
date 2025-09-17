@@ -45,6 +45,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const [currentScreen, setCurrentScreen] = useState<Screen>('navigation');
   const [userData, setUserDataState] = useState<UserData>({
     gamesCompleted: 0,
+    currentGame: 1,
     totalGames: 3,
     scores: [],
     isPaidUser: false
