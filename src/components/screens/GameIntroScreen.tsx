@@ -6,7 +6,6 @@ interface Game {
   id: number;
   title: string;
   subtitle: string;
-  description: string;
   icon: React.ElementType;
   color: string;
   bgGradient: string;
@@ -19,9 +18,8 @@ const GameIntroScreen: React.FC = () => {
   const games = [
     {
       id: 1,
-      title: 'Hidden Ghosts',
+      title: '游戏1',
       subtitle: 'MEMORY',
-      description: '记住幽灵出现的位置',
       icon: Target,
       color: 'bg-primary',
       bgGradient: 'from-primary/20 to-accent/20',
@@ -33,11 +31,10 @@ const GameIntroScreen: React.FC = () => {
     },
     {
       id: 2,
-      title: 'Memory Matrix',
+      title: '游戏2',
       subtitle: 'MEMORY', 
-      description: '记住图形矩阵位置',
       icon: Brain,
-      color: 'text-accent',
+      color: 'bg-accent',
       bgGradient: 'from-accent/20 to-success/20',
       benefits: [
         '增强工作记忆能力',
@@ -47,11 +44,10 @@ const GameIntroScreen: React.FC = () => {
     },
     {
       id: 3,
-      title: 'Speed Processing',
+      title: '游戏3',
       subtitle: 'MEMORY',
-      description: '加快信息处理和决策速度',
       icon: Zap,
-      color: 'text-success',
+      color: 'bg-success',
       bgGradient: 'from-success/20 to-primary/20',
       benefits: [
         '提升反应处理速度',
@@ -105,11 +101,8 @@ const GameIntroScreen: React.FC = () => {
             <h2 className="text-2xl font-bold text-foreground mb-2">
               {currentGame.title}
             </h2>
-            <p className="text-sm text-primary font-medium uppercase tracking-wide mb-4">
+            <p className="text-sm text-primary font-medium uppercase tracking-wide">
               {currentGame.subtitle}
-            </p>
-            <p className="text-base text-muted-foreground">
-              {currentGame.description}
             </p>
           </div>
 

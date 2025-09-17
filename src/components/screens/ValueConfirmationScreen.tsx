@@ -7,7 +7,7 @@ const ValueConfirmationScreen: React.FC = () => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      navigateToScreen('payment-wall');
+      navigateToScreen('info-collection');
     }, 3000);
 
     return () => clearTimeout(timer);

@@ -164,8 +164,8 @@ const TodayTab: React.FC<TodayTabProps> = ({ isDemoCompleted, onToggleDemo }) =>
                       <CheckCircle className="w-6 h-6 text-white" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-foreground">今日記憶力訓練</h3>
-                      <p className="text-sm text-success">已完成 ✓</p>
+              <h3 className="font-semibold text-foreground">今日记忆力训练</h3>
+              <p className="text-sm text-success">已完成 ✓</p>
                     </div>
                   </div>
                   <div className={`transform transition-transform ${isCollapsed ? '' : 'rotate-180'}`}>
@@ -195,8 +195,8 @@ const TodayTab: React.FC<TodayTabProps> = ({ isDemoCompleted, onToggleDemo }) =>
 
             {/* Relaxing Games Section */}
             <div>
-              <h2 className="text-xl font-bold text-foreground mb-2">放鬆一下</h2>
-              <p className="text-sm text-muted-foreground mb-6">沒有分數壓力，隨時來一局</p>
+              <h2 className="text-xl font-bold text-foreground mb-2">放松一下</h2>
+              <p className="text-sm text-muted-foreground mb-6">没有分数压力，随时来一局</p>
               
               {/* Horizontal scrollable game list */}
               <div className="flex space-x-4 overflow-x-auto pb-6 -mx-6 px-6">
@@ -226,50 +226,50 @@ const TodayTab: React.FC<TodayTabProps> = ({ isDemoCompleted, onToggleDemo }) =>
   );
 };
 
-// Games Tab Component - 記憶力遊戲中心
+// Games Tab Component - 记忆力游戏中心
 const GamesTab: React.FC = () => {
   const allMemoryGames = [
     { 
-      name: '空間記憶挑戰', 
-      description: '記住物品位置',
-      duration: '5-8分鐘', 
-      difficulty: '簡單', 
+      name: '空间记忆挑战', 
+      description: '记住物品位置',
+      duration: '5-8分钟', 
+      difficulty: '简单', 
       icon: Target, 
       color: 'bg-primary',
       bestScore: 850
     },
     { 
-      name: '數字序列記憶', 
-      description: '記住數字順序',
-      duration: '4-6分鐘', 
+      name: '数字序列记忆', 
+      description: '记住数字顺序',
+      duration: '4-6分钟', 
       difficulty: '中等', 
       icon: Brain, 
       color: 'bg-accent',
       bestScore: 720
     },
     { 
-      name: '圖案匹配記憶', 
-      description: '識別相同圖案',
-      duration: '6-10分鐘', 
+      name: '图案匹配记忆', 
+      description: '识别相同图案',
+      duration: '6-10分钟', 
       difficulty: '中等', 
       icon: TrendingUp, 
       color: 'bg-success',
       bestScore: 680
     },
     { 
-      name: '色彩序列記憶', 
-      description: '記住顏色順序',
-      duration: '3-5分鐘', 
-      difficulty: '簡單', 
+      name: '色彩序列记忆', 
+      description: '记住颜色顺序',
+      duration: '3-5分钟', 
+      difficulty: '简单', 
       icon: Clock, 
       color: 'bg-primary',
       bestScore: 920
     },
     { 
-      name: '文字記憶訓練', 
-      description: '記住詞語列表',
-      duration: '8-12分鐘', 
-      difficulty: '困難', 
+      name: '文字记忆训练', 
+      description: '记住词语列表',
+      duration: '8-12分钟', 
+      difficulty: '困难', 
       icon: Brain, 
       color: 'bg-accent',
       bestScore: 560
@@ -303,7 +303,7 @@ const GamesTab: React.FC = () => {
                         <p className="text-sm text-muted-foreground mb-2">{game.description}</p>
                         <div className="flex items-center space-x-3 text-xs text-muted-foreground">
                           <span>⏱ {game.duration}</span>
-                          <span>• 難度: {game.difficulty}</span>
+                          <span>• 难度: {game.difficulty}</span>
                           <span>• 最佳: {game.bestScore}</span>
                         </div>
                       </div>
@@ -322,7 +322,7 @@ const GamesTab: React.FC = () => {
   );
 };
 
-// Profile Tab Component - 訓練記錄與個人中心
+// Profile Tab Component - 训练记录与个人中心
 const ProfileTab: React.FC = () => {
   const { userData } = useApp();
   
@@ -336,9 +336,9 @@ const ProfileTab: React.FC = () => {
   const calibrationScores = [1250, 1265, 1285];
   
   const memoryAbilities = [
-    { name: '空間記憶', score: 85, color: 'bg-primary' },
-    { name: '序列記憶', score: 78, color: 'bg-accent' },
-    { name: '視覺再認', score: 92, color: 'bg-success' }
+    { name: '空间记忆', score: 85, color: 'bg-primary' },
+    { name: '序列记忆', score: 78, color: 'bg-accent' },
+    { name: '视觉再认', score: 92, color: 'bg-success' }
   ];
 
   const achievements = [
@@ -434,8 +434,7 @@ const ProfileTab: React.FC = () => {
         <div className="w-20 h-20 gradient-hero rounded-full flex items-center justify-center mx-auto mb-4">
           <User className="w-10 h-10 text-white" />
         </div>
-        <h1 className="text-2xl font-bold text-foreground mb-1">训练记录与个人中心</h1>
-        <p className="text-muted-foreground">量化记忆力进步，数据反馈</p>
+        <h1 className="text-2xl font-bold text-foreground mb-1">个人中心</h1>
       </div>
 
       <div className="flex-1 overflow-y-auto p-6 pb-4">

@@ -34,7 +34,7 @@ const ValueCarouselScreen: React.FC = () => {
     if (currentSlide < slides.length - 1) {
       setCurrentSlide(currentSlide + 1);
     } else {
-      navigateToScreen('info-collection');
+      navigateToScreen('value-confirmation');
     }
   };
 
