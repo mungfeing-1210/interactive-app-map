@@ -2,6 +2,17 @@ import React from 'react';
 import { useApp } from '../../contexts/AppContext';
 import { Target, Zap, Brain } from 'lucide-react';
 
+interface Game {
+  id: number;
+  title: string;
+  subtitle: string;
+  description: string;
+  icon: React.ElementType;
+  color: string;
+  bgGradient: string;
+  benefits: string[];
+}
+
 const GameIntroScreen: React.FC = () => {
   const { navigateToScreen, userData, setUserData } = useApp();
 
@@ -12,7 +23,7 @@ const GameIntroScreen: React.FC = () => {
       subtitle: 'MEMORY',
       description: '记住幽灵出现的位置',
       icon: Target,
-      color: 'text-primary',
+      color: 'bg-primary',
       bgGradient: 'from-primary/20 to-accent/20',
       benefits: [
         '提升大脑处理速度',
@@ -70,7 +81,7 @@ const GameIntroScreen: React.FC = () => {
   return (
     <div className="mobile-screen bg-background flex flex-col h-full">
       {/* Header with Back Button */}
-      <div className="flex items-center pt-8 pb-6 px-6">
+      <div className="flex items-center pt-8 pb-4 px-6">
         <button
           onClick={() => navigateToScreen('navigation')}
           className="w-10 h-10 bg-card/95 backdrop-blur-sm rounded-full flex items-center justify-center shadow-medium hover:bg-card transition-colors border border-border"
@@ -79,23 +90,6 @@ const GameIntroScreen: React.FC = () => {
             <path d="M19 12H5M12 19l-7-7 7-7"/>
           </svg>
         </button>
-      </div>
-
-      {/* Game Progress Indicator */}
-      <div className="text-center mb-4">
-        <h1 className="text-2xl font-bold text-foreground mb-2">
-          Game {userData.currentGame} of {userData.totalGames}
-        </h1>
-        <div className="flex justify-center space-x-2">
-          {Array.from({ length: userData.totalGames || 3 }, (_, index) => (
-            <div
-              key={index}
-              className={`w-2 h-2 rounded-full ${
-                index < (userData.currentGame || 1) ? 'bg-primary' : 'bg-muted'
-              }`}
-            />
-          ))}
-        </div>
       </div>
 
       {/* Game Content */}
