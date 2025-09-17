@@ -5,8 +5,9 @@ import { useApp } from '../../contexts/AppContext';
 
 // Today Tab Component - 每日記憶力訓練中心
 const TodayTab: React.FC = () => {
-  // State to track if today's training is completed
-  const [isTodayCompleted, setIsTodayCompleted] = useState(false);
+  // State to track if today's training is completed and collapse state
+  const [isTodayCompleted, setIsTodayCompleted] = useState(true);
+  const [isCollapsed, setIsCollapsed] = useState(true);
 
   // Daily memory training games (specific games mentioned in requirements)
   const dailyMemoryGames = [
@@ -141,43 +142,67 @@ const TodayTab: React.FC = () => {
         ) : (
           // State 2: Training completed
           <>
-            {/* Collapsed daily training section */}
-            <div className="mb-6">
-              <div className="card-elevated">
+            {/* Collapsible daily training section */}
+            <div 
+              className="mb-6 cursor-pointer" 
+              onClick={() => setIsCollapsed(!isCollapsed)}
+            >
+              <div className="card-elevated bg-gradient-to-r from-success/10 to-primary/10">
                 <div className="flex items-center justify-between p-4">
                   <div className="flex items-center space-x-4">
-                    <div className="w-12 h-12 bg-success rounded-2xl flex items-center justify-center">
+                    <div className="w-12 h-12 bg-success/90 rounded-2xl flex items-center justify-center">
                       <CheckCircle className="w-6 h-6 text-white" />
                     </div>
                     <div>
                       <h3 className="font-semibold text-foreground">今日記憶力訓練</h3>
-                      <p className="text-sm text-muted-foreground">已完成！明日訓練待解鎖</p>
+                      <p className="text-sm text-success">已完成 ✓</p>
                     </div>
                   </div>
+                  <div className={`transform transition-transform ${isCollapsed ? '' : 'rotate-180'}`}>
+                    ▼
+                  </div>
                 </div>
+                
+                {/* Expanded content */}
+                {!isCollapsed && (
+                  <div className="px-4 pb-4">
+                    <div className="mt-2 space-y-3">
+                      {dailyMemoryGames.map((game, index) => {
+                        const IconComponent = game.icon;
+                        return (
+                          <div key={index} className="flex items-center space-x-3 text-sm text-muted-foreground">
+                            <IconComponent className="w-4 h-4" />
+                            <span>{game.name}</span>
+                            <span className="text-success">✓</span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
 
             {/* Relaxing Games Section */}
             <div>
-              <h2 className="text-lg font-semibold text-foreground mb-2">放鬆遊戲</h2>
-              <p className="text-sm text-muted-foreground mb-4">沒有分數壓力，隨時來一局</p>
+              <h2 className="text-xl font-bold text-foreground mb-2">放鬆一下</h2>
+              <p className="text-sm text-muted-foreground mb-6">沒有分數壓力，隨時來一局</p>
               
               {/* Horizontal scrollable game list */}
-              <div className="flex space-x-4 overflow-x-auto pb-4">
+              <div className="flex space-x-4 overflow-x-auto pb-6 -mx-6 px-6">
                 {relaxingGames.map((game, index) => {
                   const IconComponent = game.icon;
                   return (
                     <div 
                       key={index} 
-                      className="card-elevated min-w-[160px] cursor-pointer hover:scale-105 transition-transform"
+                      className="card-elevated min-w-[180px] cursor-pointer hover:scale-105 transition-transform bg-gradient-to-br from-background to-muted/30"
                     >
-                      <div className="p-4 text-center">
-                        <div className={`w-16 h-16 ${game.color} rounded-2xl flex items-center justify-center mx-auto mb-3`}>
+                      <div className="p-5 text-center">
+                        <div className={`w-16 h-16 ${game.color} rounded-2xl flex items-center justify-center mx-auto mb-4`}>
                           <IconComponent className="w-8 h-8 text-white" />
                         </div>
-                        <h3 className="font-semibold text-foreground mb-1 text-sm">{game.name}</h3>
-                        <p className="text-xs text-muted-foreground">{game.description}</p>
+                        <h3 className="font-semibold text-foreground mb-2">{game.name}</h3>
+                        <p className="text-sm text-muted-foreground">{game.description}</p>
                       </div>
                     </div>
                   );
