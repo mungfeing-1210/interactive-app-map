@@ -98,30 +98,34 @@ const TodayTab: React.FC<TodayTabProps> = ({ isDemoCompleted, onToggleDemo }) =>
         {!isDemoCompleted ? (
           // State 1: Training not completed
           <>
-            {/* Quick Start CTA */}
-            <button 
-              onClick={handleStartTraining}
-              className="btn-gradient w-full py-4 text-lg font-semibold mb-6"
-            >
-              开始训练
-            </button>
-
-            {/* Training Preview */}
+            {/* Training List */}
             <div className="mb-6">
               <h2 className="text-lg font-semibold text-foreground mb-4">今日训练内容</h2>
-              <div className="grid grid-cols-3 gap-3">
+              <div className="space-y-3">
                 {dailyMemoryGames.map((game, index) => {
                   const IconComponent = game.icon;
+                  const isFirst = index === 0;
+                  
                   return (
                     <div 
                       key={index} 
-                      className="card-elevated p-4 text-center cursor-pointer hover:bg-muted/50 transition-colors"
+                      className={`card-elevated cursor-pointer hover:bg-muted/50 transition-colors ${
+                        isFirst ? 'ring-2 ring-primary/30' : ''
+                      }`}
                       onClick={handleStartTraining}
                     >
-                      <div className={`w-12 h-12 ${game.color} rounded-xl flex items-center justify-center mx-auto mb-2`}>
-                        <IconComponent className="w-6 h-6 text-white" />
+                      <div className="flex items-center p-4 space-x-4">
+                        <div className={`w-12 h-12 ${game.color} rounded-xl flex items-center justify-center flex-shrink-0`}>
+                          <IconComponent className="w-6 h-6 text-white" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="text-base font-medium text-foreground mb-1">{game.name}</h3>
+                          <p className="text-sm text-muted-foreground truncate">{game.type}</p>
+                        </div>
+                        <div className="flex-shrink-0">
+                          <Play className="w-5 h-5 text-primary" />
+                        </div>
                       </div>
-                      <h3 className="text-sm font-medium text-foreground truncate">{game.name}</h3>
                     </div>
                   );
                 })}
@@ -141,6 +145,9 @@ const TodayTab: React.FC<TodayTabProps> = ({ isDemoCompleted, onToggleDemo }) =>
                 </div>
               </div>
             </div>
+
+            {/* Bottom Padding for Floating Button */}
+            <div className="h-24" />
           </>
         ) : (
           // State 2: Training completed
@@ -528,6 +535,18 @@ const MainAppScreen: React.FC = () => {
       <div className="flex-1 overflow-hidden min-h-0">
         {renderTabContent()}
       </div>
+
+      {/* Floating CTA Button - Only show in today tab when not completed */}
+      {activeTab === 'today' && !isDemoCompleted && (
+        <div className="fixed bottom-16 left-0 right-0 px-4 pb-4 bg-gradient-to-t from-background via-background/95 to-transparent z-20 pt-6">
+          <button 
+            onClick={() => setIsDemoCompleted(true)}
+            className="btn-gradient w-full py-4 text-lg font-semibold rounded-xl shadow-lg"
+          >
+            开始训练
+          </button>
+        </div>
+      )}
 
       {/* Bottom Navigation - Fixed */}
       <div className="bg-card border-t border-border shadow-soft flex-shrink-0 z-10">
