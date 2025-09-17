@@ -4,9 +4,12 @@ import { Progress } from '../ui/progress';
 import { useApp } from '../../contexts/AppContext';
 
 // Today Tab Component - 每日記憶力訓練中心
-const TodayTab: React.FC = () => {
-  // State to track if today's training is completed and collapse state
-  const [isTodayCompleted, setIsTodayCompleted] = useState(true);
+interface TodayTabProps {
+  isDemoCompleted: boolean;
+  onToggleDemo: () => void;
+}
+
+const TodayTab: React.FC<TodayTabProps> = ({ isDemoCompleted, onToggleDemo }) => {
   const [isCollapsed, setIsCollapsed] = useState(true);
 
   // Daily memory training games (specific games mentioned in requirements)
@@ -92,7 +95,7 @@ const TodayTab: React.FC = () => {
 
       {/* Content - Scrollable */}
       <div className="flex-1 overflow-y-auto p-6 pb-4">
-        {!isTodayCompleted ? (
+        {!isDemoCompleted ? (
           // State 1: Training not completed
           <>
             <div className="mb-6">
@@ -498,6 +501,7 @@ const ProfileTab: React.FC = () => {
 
 const MainAppScreen: React.FC = () => {
   const [activeTab, setActiveTab] = useState('today');
+  const [isDemoCompleted, setIsDemoCompleted] = useState(false);
 
   const tabs = [
     { id: 'today', label: '今日', labelCn: '今日', icon: Home },
@@ -508,13 +512,13 @@ const MainAppScreen: React.FC = () => {
   const renderTabContent = () => {
     switch (activeTab) {
       case 'today':
-        return <TodayTab />;
+        return <TodayTab isDemoCompleted={isDemoCompleted} onToggleDemo={() => setIsDemoCompleted(!isDemoCompleted)} />;
       case 'games':
         return <GamesTab />;
       case 'profile':
         return <ProfileTab />;
       default:
-        return <TodayTab />;
+        return <TodayTab isDemoCompleted={isDemoCompleted} onToggleDemo={() => setIsDemoCompleted(!isDemoCompleted)} />;
     }
   };
 
@@ -527,22 +531,41 @@ const MainAppScreen: React.FC = () => {
 
       {/* Bottom Navigation - Fixed */}
       <div className="bg-card border-t border-border shadow-soft flex-shrink-0 z-10">
-        <div className="flex h-20 items-center">
-          {tabs.map((tab) => {
-            const IconComponent = tab.icon;
-            return (
+        <div className="flex h-20">
+          {/* Navigation Tabs */}
+          <div className="flex flex-1">
+            {tabs.map((tab) => {
+              const IconComponent = tab.icon;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`flex-1 flex flex-col items-center justify-center space-y-1 transition-colors ${
+                    activeTab === tab.id ? 'text-primary' : 'text-muted-foreground'
+                  }`}
+                >
+                  <IconComponent className="w-5 h-5" />
+                  <span className="text-xs font-medium">{tab.labelCn}</span>
+                </button>
+              );
+            })}
+          </div>
+          
+          {/* Demo State Toggle */}
+          {activeTab === 'today' && (
+            <div className="flex items-center pr-4 pl-2">
               <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`flex-1 flex flex-col items-center justify-center space-y-1 transition-colors ${
-                  activeTab === tab.id ? 'text-primary' : 'text-muted-foreground'
+                onClick={() => setIsDemoCompleted(!isDemoCompleted)}
+                className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
+                  isDemoCompleted 
+                    ? 'bg-success/20 text-success hover:bg-success/30' 
+                    : 'bg-primary/20 text-primary hover:bg-primary/30'
                 }`}
               >
-                <IconComponent className="w-5 h-5" />
-                <span className="text-xs font-medium">{tab.labelCn}</span>
+                {isDemoCompleted ? '已完成' : '未完成'}
               </button>
-            );
-          })}
+            </div>
+          )}
         </div>
       </div>
     </div>
