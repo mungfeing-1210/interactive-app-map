@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useMemo, ReactNode } from 'react';
 
 type Screen = 
   | 'navigation'
@@ -30,6 +30,9 @@ interface UserData {
   gamesCompleted?: number;
   totalGames?: number;
   scores?: number[];
+  hasStartedTraining?: boolean;
+  streakDays?: number;
+  notifications?: number;
 }
 
 interface AppContextType {
@@ -38,25 +41,72 @@ interface AppContextType {
   userData: UserData;
   setUserData: (data: Partial<UserData>) => void;
   navigateToScreen: (screen: Screen) => void;
+  resetTrainingProgress: () => void;
+  currentStep: number;
+  totalSteps: number;
+  showProgress: boolean;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
+const ONBOARDING_STEPS: Screen[] = [
+  'value-carousel',
+  'info-collection',
+  'goal-selection',
+  'pain-point-resonance',
+  'value-confirmation',
+  'payment-wall'
+];
+
+const DEFAULT_USER_DATA: UserData = {
+  gamesCompleted: 0,
+  currentGame: 1,
+  totalGames: 3,
+  scores: [],
+  isPaidUser: false,
+  hasStartedTraining: false,
+  streakDays: 1,
+  notifications: 3
+};
+
 export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [currentScreen, setCurrentScreen] = useState<Screen>('navigation');
-  const [userData, setUserDataState] = useState<UserData>({
-    gamesCompleted: 0,
-    currentGame: 1,
-    totalGames: 3,
-    scores: [],
-    isPaidUser: false
-  });
+  const [userData, setUserDataState] = useState<UserData>(DEFAULT_USER_DATA);
+
+  const { currentStep, totalSteps, showProgress } = useMemo(() => {
+    const stepIndex = ONBOARDING_STEPS.indexOf(currentScreen);
+    return {
+      currentStep: stepIndex + 1,
+      totalSteps: ONBOARDING_STEPS.length,
+      showProgress: stepIndex !== -1
+    };
+  }, [currentScreen]);
 
   const setUserData = (data: Partial<UserData>) => {
-    setUserDataState(prev => ({ ...prev, ...data }));
+    setUserDataState(prev => {
+      const newData = { ...prev, ...data };
+      if (newData.gamesCompleted && newData.totalGames) {
+        newData.gamesCompleted = Math.min(newData.gamesCompleted, newData.totalGames);
+      }
+      return newData;
+    });
+  };
+
+  const resetTrainingProgress = () => {
+    setUserDataState(DEFAULT_USER_DATA);
   };
 
   const navigateToScreen = (screen: Screen) => {
+    // 当从导航页面进入完整引导流程时，重置所有状态
+    if (currentScreen === 'navigation' && screen === 'welcome') {
+      resetTrainingProgress();
+    }
+    
+    // 当进入游戏相关页面时，标记已开始训练
+    if (['game-intro', 'game-play', 'game-end'].includes(screen)) {
+      setUserData({ hasStartedTraining: true });
+    }
+
     setCurrentScreen(screen);
   };
 
@@ -66,7 +116,11 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       setCurrentScreen,
       userData,
       setUserData,
-      navigateToScreen
+      navigateToScreen,
+      resetTrainingProgress,
+      currentStep,
+      totalSteps,
+      showProgress
     }}>
       {children}
     </AppContext.Provider>

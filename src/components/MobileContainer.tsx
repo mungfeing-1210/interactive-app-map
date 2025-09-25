@@ -1,6 +1,7 @@
 import React from 'react';
 import { useApp } from '../contexts/AppContext';
 import { ArrowLeft } from 'lucide-react';
+import ProgressSteps from './ui/progress-steps';
 
 interface MobileContainerProps {
   children: React.ReactNode;
@@ -13,11 +14,12 @@ const MobileContainer: React.FC<MobileContainerProps> = ({
   showStatusBar = true,
   showBackButton = true
 }) => {
-  const { navigateToScreen } = useApp();
+  const { navigateToScreen, currentStep, totalSteps, showProgress } = useApp();
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100 py-4 px-4">
-      <div className="mobile-container relative">
+      <div className="mobile-container relative flex flex-col">
+        {/* Status Bar */}
         {showStatusBar && (
           <div className="flex justify-between items-center px-6 py-3 bg-card text-sm text-muted-foreground border-b border-border flex-shrink-0">
             <span className="font-medium">9:41</span>
@@ -28,6 +30,13 @@ const MobileContainer: React.FC<MobileContainerProps> = ({
             </div>
           </div>
         )}
+        
+        {/* Progress Bar */}
+        {showProgress && (
+          <ProgressSteps currentStep={currentStep} totalSteps={totalSteps} />
+        )}
+
+        {/* Back Button */}
         {showBackButton && (
           <div className="absolute top-20 left-6 z-20">
             <button
@@ -38,9 +47,12 @@ const MobileContainer: React.FC<MobileContainerProps> = ({
             </button>
           </div>
         )}
-        <div className="mobile-screen relative">
+
+        {/* Main Content */}
+        <div className="flex-1 overflow-hidden">
           {children}
         </div>
+
         {/* Safe Area Bottom Padding */}
         <div className="h-[env(safe-area-inset-bottom,0px)]" />
       </div>

@@ -91,7 +91,7 @@ const TodayTab: React.FC = () => {
         {/* Completed Training Summary */}
         <div className="mb-5">
           <div 
-            className="card-elevated cursor-pointer bg-gradient-to-r from-success/10 to-primary/10" 
+            className="bg-card rounded-3xl p-6 shadow-medium cursor-pointer bg-gradient-to-r from-success/10 to-primary/10" 
             onClick={() => setIsCollapsed(!isCollapsed)}
           >
             <div className="flex items-center justify-between p-3">
@@ -145,7 +145,7 @@ const TodayTab: React.FC = () => {
               return (
                 <div 
                   key={index} 
-                  className="card-elevated cursor-pointer hover:bg-muted/50 transition-colors"
+                  className="bg-card rounded-3xl p-6 shadow-medium cursor-pointer hover:bg-muted/50 transition-colors"
                 >
                   <div className="flex items-center p-3 space-x-3">
                     <div className={`w-11 h-11 ${game.color} rounded-xl flex items-center justify-center flex-shrink-0`}>

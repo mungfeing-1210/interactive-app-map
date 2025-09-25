@@ -1,109 +1,122 @@
 import React, { useState } from 'react';
 import { useApp } from '../../contexts/AppContext';
 import { Clock, Bell } from 'lucide-react';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '../ui/dialog';
-import { Button } from '../ui/button';
 
 const GoalSettingScreen: React.FC = () => {
   const { navigateToScreen } = useApp();
-  const [selectedDuration, setSelectedDuration] = useState('10');
-  const [showNotificationDialog, setShowNotificationDialog] = useState(false);
+  const [showNotificationModal, setShowNotificationModal] = useState(false);
 
-  const durations = ['5', '10', '15', '20'];
+  const trainingTimes = [
+    { value: 5, label: '5 分钟/天' },
+    { value: 10, label: '10 分钟/天' },
+    { value: 15, label: '15 分钟/天' },
+    { value: 20, label: '20 分钟/天' }
+  ];
+
+  const [selectedTime, setSelectedTime] = useState(10);
 
   const handleConfirm = () => {
-    setShowNotificationDialog(true);
+    setShowNotificationModal(true);
   };
 
-  const handleNotificationPermission = async (allow: boolean) => {
-    if (allow && 'Notification' in window) {
-      try {
-        await Notification.requestPermission();
-      } catch (error) {
-        console.log('Notification permission request failed:', error);
-      }
-    }
-    setShowNotificationDialog(false);
+  const handleEnableNotification = () => {
+    navigateToScreen('streak-celebration');
+  };
+
+  const handleSkipNotification = () => {
     navigateToScreen('streak-celebration');
   };
 
   return (
     <div className="mobile-screen bg-background flex flex-col h-full">
       {/* Header */}
-      <div className="text-center p-8 pt-12 pb-6 flex-shrink-0">
-        <Clock className="w-16 h-16 text-primary mx-auto mb-4" />
-        <h1 className="text-2xl font-bold text-foreground mb-2">设定每日目标</h1>
-        <p className="text-muted-foreground">选择您的每日训练时间</p>
+      <div className="p-4">
+        <button
+          onClick={() => navigateToScreen('training-progress')}
+          className="w-10 h-10 bg-card/95 backdrop-blur-sm rounded-full flex items-center justify-center shadow-medium hover:bg-card transition-colors border border-border"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+          </svg>
+        </button>
       </div>
 
-      {/* Content - Scrollable */}
-      <div className="flex-1 overflow-y-auto px-8">
-        <div className="space-y-3 mb-8">
-          {durations.map((duration) => (
+      {/* Content */}
+      <div className="flex-1 px-6 pb-4 overflow-y-auto">
+        {/* Icon and Title */}
+        <div className="flex flex-col items-center mb-8">
+          <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+            <Clock className="w-8 h-8 text-primary" />
+          </div>
+          <h1 className="text-xl font-bold text-foreground text-center">设定每日目标</h1>
+          <p className="text-sm text-muted-foreground text-center mt-1">选择您的每日训练时间</p>
+        </div>
+
+        {/* Time Selection */}
+        <div className="space-y-3">
+          {trainingTimes.map((time) => (
             <button
-              key={duration}
-              onClick={() => setSelectedDuration(duration)}
-              className={`w-full p-4 rounded-2xl border-2 transition-smooth text-center flex items-center justify-center ${
-                selectedDuration === duration
+              key={time.value}
+              onClick={() => setSelectedTime(time.value)}
+              className={`w-full py-4 rounded-2xl border-2 transition-smooth text-center ${
+                selectedTime === time.value
                   ? 'border-primary bg-primary/10 text-primary'
-                  : 'border-border bg-card text-foreground hover:border-primary/50'
+                  : 'border-border bg-card hover:border-primary/50'
               }`}
             >
-              <div className="text-xl font-bold mr-2">{duration}</div>
-              <div className="text-sm">分钟/天</div>
+              <span className="text-xl font-bold">{time.value}</span>
+              <span className="text-base"> 分钟/天</span>
             </button>
           ))}
         </div>
 
-        <div className="bg-muted rounded-2xl p-4 flex items-center space-x-3">
-          <Bell className="w-5 h-5 text-accent" />
-          <p className="text-sm text-foreground">我们会在合适的时间提醒您训练</p>
+        {/* Notification Hint */}
+        <div className="mt-6 p-3 bg-primary/5 rounded-xl flex items-center space-x-2">
+          <Bell className="w-4 h-4 text-primary" />
+          <p className="text-xs text-muted-foreground">我们会在合适的时间提醒您训练</p>
         </div>
       </div>
 
-      {/* CTA Button - Fixed at bottom */}
-      <div className="p-8 pt-4 flex-shrink-0">
-        <button onClick={handleConfirm} className="btn-gradient w-full">
+      {/* Bottom Button */}
+      <div className="p-4">
+        <button 
+          onClick={handleConfirm}
+          className="btn-gradient w-full py-3 text-base font-medium rounded-xl"
+        >
           确认目标
         </button>
       </div>
 
-      {/* Notification Permission Dialog */}
-      <Dialog open={showNotificationDialog} onOpenChange={setShowNotificationDialog}>
-        <DialogContent className="max-w-sm mx-auto">
-          <DialogHeader className="text-center">
-            <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Bell className="w-8 h-8 text-primary" />
+      {/* Notification Modal */}
+      {showNotificationModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-background rounded-2xl p-6 m-4 max-w-sm w-full">
+            <div className="flex flex-col items-center">
+              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+                <Bell className="w-8 h-8 text-primary" />
+              </div>
+              <h2 className="text-lg font-bold text-foreground mb-2">开启训练提醒</h2>
+              <p className="text-center text-sm text-muted-foreground mb-4">
+                我们将在您设定的训练时间发送温馨提醒，帮助您保持训练习惯
+              </p>
+              <div className="flex flex-col w-full space-y-2">
+                <button
+                  onClick={handleEnableNotification}
+                  className="btn-gradient w-full py-3 rounded-xl"
+                >
+                  开启提醒
+                </button>
+                <button
+                  onClick={handleSkipNotification}
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors py-2"
+                >
+                  稍后再说
+                </button>
+              </div>
             </div>
-            <DialogTitle className="text-xl font-bold">开启训练提醒</DialogTitle>
-            <DialogDescription className="text-muted-foreground mt-2">
-              我们将在您设定的训练时间发送温馨提醒，帮助您保持训练习惯
-            </DialogDescription>
-          </DialogHeader>
-          <div className="flex gap-3 mt-6">
-            <Button 
-              variant="outline" 
-              className="flex-1"
-              onClick={() => handleNotificationPermission(false)}
-            >
-              稍后再说
-            </Button>
-            <Button 
-              className="flex-1"
-              onClick={() => handleNotificationPermission(true)}
-            >
-              开启提醒
-            </Button>
           </div>
-        </DialogContent>
-      </Dialog>
+        </div>
+      )}
     </div>
   );
 };

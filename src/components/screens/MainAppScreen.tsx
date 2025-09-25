@@ -3,16 +3,11 @@ import { Home, GamepadIcon, User, Flame, Target, Brain, Clock, TrendingUp, Play,
 import { Progress } from '../ui/progress';
 import { useApp } from '../../contexts/AppContext';
 
-// Today Tab Component - 每日記憶力訓練中心
-interface TodayTabProps {
-  isDemoCompleted: boolean;
-  onToggleDemo: () => void;
-}
-
-const TodayTab: React.FC<TodayTabProps> = ({ isDemoCompleted, onToggleDemo }) => {
+// Today Tab Component
+const TodayTab: React.FC<{ isDemoCompleted: boolean; onToggleDemo: () => void }> = ({ isDemoCompleted, onToggleDemo }) => {
   const [isCollapsed, setIsCollapsed] = useState(true);
 
-  // Daily memory training games (specific games mentioned in requirements)
+  // Daily memory training games
   const dailyMemoryGames = [
     {
       name: '隐藏的幽灵',
@@ -43,7 +38,7 @@ const TodayTab: React.FC<TodayTabProps> = ({ isDemoCompleted, onToggleDemo }) =>
     }
   ];
 
-  // Relaxing games for when daily training is completed
+  // Relaxing games
   const relaxingGames = [
     {
       name: '水排序',
@@ -71,11 +66,6 @@ const TodayTab: React.FC<TodayTabProps> = ({ isDemoCompleted, onToggleDemo }) =>
     }
   ];
 
-  const handleStartTraining = () => {
-    // Simulate completing training
-    setIsTodayCompleted(true);
-  };
-
   return (
     <div className="flex flex-col h-full">
       {/* Header */}
@@ -96,7 +86,6 @@ const TodayTab: React.FC<TodayTabProps> = ({ isDemoCompleted, onToggleDemo }) =>
       {/* Content - Scrollable */}
       <div className="flex-1 overflow-y-auto p-6 pb-4">
         {!isDemoCompleted ? (
-          // State 1: Training not completed
           <>
             {/* Training List */}
             <div className="mb-5">
@@ -109,10 +98,9 @@ const TodayTab: React.FC<TodayTabProps> = ({ isDemoCompleted, onToggleDemo }) =>
                   return (
                     <div 
                       key={index} 
-                      className={`card-elevated cursor-pointer hover:bg-muted/50 transition-colors ${
+                      className={`bg-card rounded-3xl p-6 shadow-medium cursor-pointer hover:bg-muted/50 transition-colors ${
                         isFirst ? 'ring-2 ring-primary/30' : ''
                       }`}
-                      onClick={handleStartTraining}
                     >
                       <div className="flex items-center p-3 space-x-3">
                         <div className={`w-11 h-11 ${game.color} rounded-xl flex items-center justify-center flex-shrink-0`}>
@@ -135,7 +123,7 @@ const TodayTab: React.FC<TodayTabProps> = ({ isDemoCompleted, onToggleDemo }) =>
             {/* Locked Content Preview */}
             <div className="opacity-50">
               <h2 className="text-base font-medium text-foreground mb-2">完成训练后解锁</h2>
-              <div className="card-elevated p-3 flex items-center space-x-3">
+              <div className="bg-card rounded-3xl p-6 shadow-medium flex items-center space-x-3">
                 <div className="w-10 h-10 bg-muted rounded-lg flex items-center justify-center">
                   <TrendingUp className="w-5 h-5 text-muted-foreground" />
                 </div>
@@ -150,22 +138,21 @@ const TodayTab: React.FC<TodayTabProps> = ({ isDemoCompleted, onToggleDemo }) =>
             <div className="h-28" />
           </>
         ) : (
-          // State 2: Training completed
           <>
             {/* Collapsible daily training section */}
             <div 
               className="mb-6 cursor-pointer" 
               onClick={() => setIsCollapsed(!isCollapsed)}
             >
-              <div className="card-elevated bg-gradient-to-r from-success/10 to-primary/10">
+              <div className="bg-card rounded-3xl p-6 shadow-medium bg-gradient-to-r from-success/10 to-primary/10">
                 <div className="flex items-center justify-between p-4">
                   <div className="flex items-center space-x-4">
                     <div className="w-12 h-12 bg-success/90 rounded-2xl flex items-center justify-center">
                       <CheckCircle className="w-6 h-6 text-white" />
                     </div>
                     <div>
-              <h3 className="font-semibold text-foreground">今日记忆力训练</h3>
-              <p className="text-sm text-success">已完成 ✓</p>
+                      <h3 className="font-semibold text-foreground">今日记忆力训练</h3>
+                      <p className="text-sm text-success">已完成 ✓</p>
                     </div>
                   </div>
                   <div className={`transform transition-transform ${isCollapsed ? '' : 'rotate-180'}`}>
@@ -205,7 +192,7 @@ const TodayTab: React.FC<TodayTabProps> = ({ isDemoCompleted, onToggleDemo }) =>
                   return (
                     <div 
                       key={index} 
-                      className="card-elevated min-w-[180px] cursor-pointer hover:scale-105 transition-transform bg-gradient-to-br from-background to-muted/30"
+                      className="bg-card rounded-3xl p-6 shadow-medium min-w-[180px] cursor-pointer hover:scale-105 transition-transform bg-gradient-to-br from-background to-muted/30"
                     >
                       <div className="p-5 text-center">
                         <div className={`w-16 h-16 ${game.color} rounded-2xl flex items-center justify-center mx-auto mb-4`}>
@@ -226,7 +213,7 @@ const TodayTab: React.FC<TodayTabProps> = ({ isDemoCompleted, onToggleDemo }) =>
   );
 };
 
-// Games Tab Component - 记忆力游戏中心
+// Games Tab Component
 const GamesTab: React.FC = () => {
   const allMemoryGames = [
     { 
@@ -255,24 +242,6 @@ const GamesTab: React.FC = () => {
       icon: TrendingUp, 
       color: 'bg-success',
       bestScore: 680
-    },
-    { 
-      name: '色彩序列记忆', 
-      description: '记住颜色顺序',
-      duration: '3-5分钟', 
-      difficulty: '简单', 
-      icon: Clock, 
-      color: 'bg-primary',
-      bestScore: 920
-    },
-    { 
-      name: '文字记忆训练', 
-      description: '记住词语列表',
-      duration: '8-12分钟', 
-      difficulty: '困难', 
-      icon: Brain, 
-      color: 'bg-accent',
-      bestScore: 560
     }
   ];
 
@@ -292,7 +261,7 @@ const GamesTab: React.FC = () => {
             {allMemoryGames.map((game, index) => {
               const IconComponent = game.icon;
               return (
-                <div key={index} className="card-elevated">
+                <div key={index} className="bg-card rounded-3xl p-6 shadow-medium">
                   <div className="flex items-center justify-between p-4">
                     <div className="flex items-center space-x-4 flex-1">
                       <div className={`w-14 h-14 ${game.color} rounded-2xl flex items-center justify-center`}>
@@ -322,19 +291,12 @@ const GamesTab: React.FC = () => {
   );
 };
 
-// Profile Tab Component - 训练记录与个人中心
+// Profile Tab Component
 const ProfileTab: React.FC = () => {
   const { userData } = useApp();
-  
-  // 模拟训练天数数据 - 在实际应用中这应该来自后端
-  const trainingDays = userData.gamesCompleted || 1; // 假设每完成3个游戏算1天
-  const currentMemoryIndex = 1250;
-  const yesterdayScore = 1235; // 模拟昨日分数
-  const scoreChange = currentMemoryIndex - yesterdayScore;
-  
-  // 模拟3天的分数数据用于校准期
-  const calibrationScores = [1250, 1265, 1285];
-  
+  const currentMemoryIndex = 1250; // 模拟记忆力指数
+  const trainingDays = 1; // 第一天训练
+
   const memoryAbilities = [
     { name: '空间记忆', score: 85, color: 'bg-primary' },
     { name: '序列记忆', score: 78, color: 'bg-accent' },
@@ -353,7 +315,7 @@ const ProfileTab: React.FC = () => {
       title: '持之以恒',
       description: '连续训练 7 天',
       icon: Flame,
-      earned: true,
+      earned: false,
       color: 'bg-primary'
     },
     {
@@ -361,130 +323,95 @@ const ProfileTab: React.FC = () => {
       description: '记忆力指数达到 500',
       icon: Award,
       earned: false,
-      color: 'bg-muted'
+      color: 'bg-accent'
     }
   ];
 
-  // 渲染基準校準期介面
-  const renderCalibrationInterface = () => {
-    return (
-      <div className="card-elevated mb-6 text-center">
-        <div className="p-6">
+  return (
+    <div className="flex flex-col h-full">
+      {/* Header - 更紧凑的设计 */}
+      <div className="p-4 bg-card text-center flex-shrink-0">
+        <div className="w-12 h-12 gradient-hero rounded-full flex items-center justify-center mx-auto mb-2">
+          <User className="w-6 h-6 text-white" />
+        </div>
+        <h1 className="text-lg font-bold text-foreground">个人中心</h1>
+      </div>
+
+      <div className="flex-1 overflow-y-auto p-6 pb-4">
+        {/* 记忆力指数卡片 */}
+        <div className="bg-card rounded-3xl p-6 shadow-medium mb-6">
           <h2 className="text-lg font-semibold text-foreground mb-4">记忆力指数</h2>
-          <div className="text-4xl font-bold text-primary mb-2">{currentMemoryIndex}</div>
           
-          {trainingDays > 1 && (
-            <div className="text-sm font-medium text-success mb-4">
-              ↑ {scoreChange} vs 昨日
+          {/* 分数显示 */}
+          <div className="text-4xl font-bold text-primary mb-6 text-center">
+            {currentMemoryIndex}
+          </div>
+
+          {/* 校准进度指示器 */}
+          <div className="bg-muted/30 rounded-xl p-4 mb-4">
+            <div className="text-sm font-medium text-foreground mb-4">
+              正在进行能力基准校准
             </div>
-          )}
-          
-          <div className="bg-muted/30 rounded-lg p-4 mb-4">
+            
+            {/* 进度点 */}
             <div className="flex justify-center space-x-2 mb-3">
               {[1, 2, 3].map((day) => (
                 <div
                   key={day}
-                  className={`w-3 h-3 rounded-full ${
-                    day <= trainingDays ? 'bg-primary' : 'bg-muted'
+                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                    day <= trainingDays 
+                      ? 'bg-primary' 
+                      : 'bg-muted'
                   }`}
                 />
               ))}
             </div>
-            <p className="text-sm text-muted-foreground">
-              {trainingDays < 3 
-                ? `第${trainingDays}天训练 • 再训练${3 - trainingDays}天解锁趋势图`
-                : '基准校准完成！'
-              }
+
+            {/* 当前进度文字 */}
+            <p className="text-sm text-muted-foreground text-center mb-2">
+              初始基准已记录
+            </p>
+
+            {/* 激励文案 */}
+            <p className="text-sm text-muted-foreground text-center">
+              很棒的开始！连续完成3天训练，即可解锁您的个性化进度曲线。
             </p>
           </div>
-          
-          <p className="text-xs text-muted-foreground">基于所有记忆力游戏的加权平均值</p>
-        </div>
-      </div>
-    );
-  };
 
-  // 渲染完整進度曲線
-  const renderProgressCurve = () => {
-    return (
-      <div className="card-elevated mb-6 text-center">
-        <div className="p-6">
-          <h2 className="text-lg font-semibold text-foreground mb-4">记忆力指数</h2>
-          <div className="text-4xl font-bold text-primary mb-2">{currentMemoryIndex}</div>
-          <div className="text-sm font-medium text-success mb-4">
-            ↑ {scoreChange} vs 昨日
-          </div>
-          
-          {/* 简化的进度图 */}
-          <div className="bg-gradient-to-r from-primary/20 to-primary/40 rounded-lg p-4 h-24 flex items-center justify-center mb-4">
-            <TrendingUp className="w-6 h-6 text-primary mr-2" />
-            <span className="text-sm text-primary font-medium">7天进步趋势</span>
-          </div>
-          
-          <p className="text-xs text-muted-foreground">基于所有记忆力游戏的加权平均值</p>
+          {/* 底部说明 */}
+          <p className="text-xs text-muted-foreground text-center">
+            基于所有记忆力游戏的加权平均值
+          </p>
         </div>
-      </div>
-    );
-  };
-
-  return (
-    <div className="flex flex-col h-full">
-      {/* Header */}
-      <div className="p-6 bg-card text-center flex-shrink-0">
-        <div className="w-20 h-20 gradient-hero rounded-full flex items-center justify-center mx-auto mb-4">
-          <User className="w-10 h-10 text-white" />
-        </div>
-        <h1 className="text-2xl font-bold text-foreground mb-1">个人中心</h1>
-      </div>
-
-      <div className="flex-1 overflow-y-auto p-6 pb-4">
-        {/* Memory Index Progress - 校準期或完整曲線 */}
-        {trainingDays < 3 ? renderCalibrationInterface() : renderProgressCurve()}
 
         {/* Memory Ability Breakdown */}
         <div className="mb-6">
-          <h2 className="text-lg font-semibold text-foreground mb-4">记忆能力细分</h2>
-          <div className="card-elevated">
-            <div className="p-6 space-y-4">
+          <h2 className="text-lg font-semibold text-foreground mb-4">记忆能力维度细分</h2>
+          <div className="bg-card rounded-3xl p-6 shadow-medium">
+            <div className="space-y-4">
               {memoryAbilities.map((ability, index) => (
                 <div key={index}>
                   <div className="flex justify-between items-center mb-2">
                     <span className="text-sm font-medium text-foreground">{ability.name}</span>
                     <span className="text-sm font-bold text-primary">{ability.score}%</span>
                   </div>
-                  <Progress value={ability.score} className="h-3" />
+                  <Progress value={ability.score} className="h-2" />
                 </div>
               ))}
             </div>
           </div>
         </div>
 
-        {/* Training Stats */}
-        <div className="grid grid-cols-2 gap-4 mb-6">
-          <div className="card-elevated text-center">
-            <div className="p-4">
-              <div className="text-2xl font-bold text-primary mb-1">21</div>
-              <p className="text-sm text-muted-foreground">总训练次数</p>
-            </div>
-          </div>
-          <div className="card-elevated text-center">
-            <div className="p-4">
-              <div className="text-2xl font-bold text-success mb-1">7</div>
-              <p className="text-sm text-muted-foreground">连续训练天数</p>
-            </div>
-          </div>
-        </div>
-
         {/* Achievement Badges */}
-        <div>
+        <div className="mb-6">
           <h2 className="text-lg font-semibold text-foreground mb-4">成就徽章</h2>
           <div className="space-y-3">
             {achievements.map((achievement, index) => {
               const IconComponent = achievement.icon;
               return (
-                <div key={index} className={`card-elevated ${!achievement.earned ? 'opacity-60' : ''}`}>
-                  <div className="flex items-center space-x-4 p-4">
-                    <div className={`w-12 h-12 ${achievement.color} rounded-full flex items-center justify-center`}>
+                <div key={index} className={`bg-card rounded-3xl p-6 shadow-medium ${!achievement.earned ? 'opacity-60' : ''}`}>
+                  <div className="flex items-center space-x-4">
+                    <div className={`w-12 h-12 ${achievement.color} rounded-xl flex items-center justify-center`}>
                       <IconComponent className="w-6 h-6 text-white" />
                     </div>
                     <div className="flex-1">
@@ -505,6 +432,7 @@ const ProfileTab: React.FC = () => {
   );
 };
 
+// Main App Screen Component
 const MainAppScreen: React.FC = () => {
   const [activeTab, setActiveTab] = useState('today');
   const [isDemoCompleted, setIsDemoCompleted] = useState(false);

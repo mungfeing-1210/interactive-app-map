@@ -6,7 +6,7 @@ const StreakCelebrationScreen: React.FC = () => {
   const { navigateToScreen } = useApp();
 
   const handleContinue = () => {
-    navigateToScreen('main-app');
+    navigateToScreen('completed-main-app');
   };
 
   return (

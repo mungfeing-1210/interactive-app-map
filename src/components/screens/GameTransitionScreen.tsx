@@ -1,75 +1,62 @@
 import React, { useEffect } from 'react';
 import { useApp } from '../../contexts/AppContext';
+import { CheckCircle } from 'lucide-react';
 
 const GameTransitionScreen: React.FC = () => {
   const { navigateToScreen, userData } = useApp();
+  const completedGames = userData.gamesCompleted || 0;
+  const totalGames = userData.totalGames || 3;
+  const progress = (completedGames / totalGames) * 100;
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      navigateToScreen('game-intro');
-    }, 2500);
+      // 如果已经完成了所有游戏，导航到训练完成页面
+      if (completedGames >= totalGames) {
+        navigateToScreen('training-progress');
+      } else {
+        // 否则导航到下一个游戏的介绍页面
+        navigateToScreen('game-intro');
+      }
+    }, 2000);
 
     return () => clearTimeout(timer);
-  }, [navigateToScreen]);
-
-  const progress = ((userData.gamesCompleted || 0) / (userData.totalGames || 3)) * 100;
+  }, [navigateToScreen, completedGames, totalGames]);
 
   return (
-    <div className="mobile-screen gradient-hero text-white flex flex-col items-center justify-center p-8">
+    <div className="mobile-screen bg-gradient-to-b from-blue-500 to-purple-600 flex flex-col items-center justify-center text-white">
       {/* Title */}
       <h1 className="text-2xl font-bold text-center mb-2 animate-fade-in">
         训练进度
       </h1>
       
-      {/* Progress Text */}
       <p className="text-white/80 text-lg mb-12 animate-fade-in" style={{ animationDelay: '0.2s' }}>
-        第 {(userData.gamesCompleted || 0) + 1} 个游戏 / 共 {userData.totalGames} 个
+        第 {completedGames} 个游戏 / 共 {totalGames} 个
       </p>
 
-      {/* Circular Progress */}
+      {/* Progress Circle */}
       <div className="relative w-32 h-32 mb-12 animate-scale-in" style={{ animationDelay: '0.4s' }}>
-        <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
-          {/* Background Circle */}
-          <circle
-            cx="50"
-            cy="50"
-            r="45"
-            fill="none"
-            stroke="rgba(255,255,255,0.2)"
-            strokeWidth="8"
-          />
-          {/* Progress Circle */}
-          <circle
-            cx="50"
-            cy="50"
-            r="45"
-            fill="none"
-            stroke="white"
-            strokeWidth="8"
-            strokeLinecap="round"
-            strokeDasharray={`${2 * Math.PI * 45}`}
-            strokeDashoffset={`${2 * Math.PI * 45 * (1 - progress / 100)}`}
-            className="transition-all duration-1000 ease-out"
-          />
-        </svg>
-        
-        {/* Progress Percentage */}
+        <div className="absolute inset-0 rounded-full border-4 border-white/20"></div>
+        <div 
+          className="absolute inset-0 rounded-full border-4 border-white transition-all duration-1000"
+          style={{ 
+            clipPath: `inset(0 ${100 - progress}% 0 0)`,
+            transform: 'rotate(-90deg)',
+            transformOrigin: 'center'
+          }}
+        ></div>
         <div className="absolute inset-0 flex items-center justify-center">
           <span className="text-2xl font-bold">{Math.round(progress)}%</span>
         </div>
       </div>
 
-      {/* Loading Animation */}
-      <div className="animate-fade-in" style={{ animationDelay: '0.6s' }}>
-        <div className="flex space-x-2">
-          <div className="w-3 h-3 bg-white rounded-full animate-bounce"></div>
-          <div className="w-3 h-3 bg-white rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-          <div className="w-3 h-3 bg-white rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-        </div>
+      {/* Loading Dots */}
+      <div className="flex space-x-2">
+        <div className="w-2 h-2 bg-white rounded-full animate-bounce"></div>
+        <div className="w-2 h-2 bg-white rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+        <div className="w-2 h-2 bg-white rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></div>
       </div>
 
-      {/* Status Text */}
-      <p className="text-white/60 text-sm mt-6 animate-fade-in" style={{ animationDelay: '0.8s' }}>
+      <p className="text-white/60 text-sm mt-6">
         准备下一个训练...
       </p>
     </div>

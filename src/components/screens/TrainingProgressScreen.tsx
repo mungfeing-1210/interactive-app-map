@@ -10,17 +10,24 @@ const TrainingProgressScreen: React.FC = () => {
   const isComplete = (userData.gamesCompleted || 0) >= (userData.totalGames || 3);
 
   useEffect(() => {
-    // Animate progress from 0 to current value
+    // 动画进度从0到当前值
     const timer = setTimeout(() => {
       setAnimatedProgress(progress);
     }, 500);
 
-    // Auto navigate after animation
+    // 完成所有游戏后的导航
     const navigationTimer = setTimeout(() => {
       if (isComplete) {
+        // 更新用户数据
+        setUserData({
+          streakDays: 1,
+          notifications: 3,
+          hasStartedTraining: true
+        });
+        // 导航到目标设置页面
         navigateToScreen('goal-setting');
       } else {
-        // Set next game and navigate to game intro
+        // 设置下一个游戏并导航到游戏介绍
         setUserData({ currentGame: (userData.currentGame || 1) + 1 });
         navigateToScreen('game-intro');
       }
@@ -33,7 +40,7 @@ const TrainingProgressScreen: React.FC = () => {
   }, [navigateToScreen, userData, setUserData, progress, isComplete]);
 
   return (
-    <div className="mobile-screen gradient-hero text-white flex flex-col h-full relative overflow-hidden">
+    <div className="mobile-screen bg-gradient-to-b from-blue-500 to-purple-600 text-white flex flex-col h-full relative overflow-hidden">
       {/* Background decorative elements */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 opacity-50" />
       
@@ -51,12 +58,12 @@ const TrainingProgressScreen: React.FC = () => {
       <div className="flex-1 flex flex-col items-center justify-center px-8 text-center">
         {/* Title */}
         <h1 className="text-3xl font-bold mb-4 animate-fade-in">
-          Training Progress
+          训练进度
         </h1>
         
         {/* Progress Indicator */}
         <p className="text-xl font-medium mb-12 opacity-90 animate-fade-in" style={{ animationDelay: '0.2s' }}>
-          {userData.gamesCompleted} of {userData.totalGames}
+          {userData.gamesCompleted} / {userData.totalGames}
         </p>
 
         {/* Circular Progress */}

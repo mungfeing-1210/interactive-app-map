@@ -61,8 +61,15 @@ const GameIntroScreen: React.FC = () => {
   const IconComponent = currentGame.icon;
 
   const handleStart = () => {
-    // 进入游戏页面
-    navigateToScreen('game-play');
+    // 更新游戏完成状态
+    setUserData(prev => ({
+      ...prev,
+      gamesCompleted: (prev.gamesCompleted || 0) + 1,
+      scores: [...(prev.scores || []), 95] // 模拟一个很好的分数
+    }));
+    
+    // 直接进入游戏完成页面
+    navigateToScreen('game-end');
   };
 
   return (
@@ -81,7 +88,7 @@ const GameIntroScreen: React.FC = () => {
 
       {/* Game Content */}
       <div className="flex-1 px-6 pb-6 overflow-y-auto">
-        <div className="card-elevated">
+        <div className="bg-card rounded-3xl p-6 shadow-medium">
           {/* Game Icon */}
           <div className="flex flex-col items-center pt-8 pb-6">
             <div className={`w-24 h-24 rounded-full bg-gradient-to-br ${currentGame.bgGradient} flex items-center justify-center mb-6 ${currentGame.color}`}>
