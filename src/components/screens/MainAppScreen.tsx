@@ -358,51 +358,19 @@ const ProfileTab: React.FC = () => {
           </button>
         </div>
 
-        {/* 记忆力指数卡片 */}
-        <div className="bg-card rounded-3xl p-6 shadow-medium mb-6">
-          <h2 className="text-lg font-semibold text-foreground mb-4">记忆力指数</h2>
-          
-          {/* 分数显示 */}
-          <div className="text-4xl font-bold text-primary mb-6 text-center">
-            {currentMemoryIndex}
-          </div>
-
-          {/* 校准进度指示器 */}
-          <div className="bg-muted/30 rounded-xl p-4 mb-4">
-            <div className="text-sm font-medium text-foreground mb-4">
-              正在进行能力基准校准
+        {/* 记忆力指数（简化卡片，可点击查看趋势） */}
+        <button
+          onClick={() => navigateToScreen('training-progress')}
+          className="w-full text-left bg-card rounded-3xl p-6 shadow-medium mb-6 hover:bg-muted/50 transition-colors"
+        >
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-lg font-semibold text-foreground mb-1">记忆力指数</h2>
+              <p className="text-xs text-muted-foreground">点击查看趋势</p>
             </div>
-            
-            {/* 进度点 */}
-            <div className="flex justify-center space-x-2 mb-3">
-              {[1, 2, 3].map((day) => (
-                <div
-                  key={day}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                    day <= trainingDays 
-                      ? 'bg-primary' 
-                      : 'bg-muted'
-                  }`}
-                />
-              ))}
-            </div>
-
-            {/* 当前进度文字 */}
-            <p className="text-sm text-muted-foreground text-center mb-2">
-              初始基准已记录
-            </p>
-
-            {/* 激励文案 */}
-            <p className="text-sm text-muted-foreground text-center">
-              很棒的开始！连续完成3天训练，即可解锁您的个性化进度曲线。
-            </p>
+            <div className="text-4xl font-bold text-primary">{currentMemoryIndex}</div>
           </div>
-
-          {/* 底部说明 */}
-          <p className="text-xs text-muted-foreground text-center">
-            基于所有记忆力游戏的加权平均值
-          </p>
-        </div>
+        </button>
 
         {/* Memory Ability Breakdown */}
         <div className="mb-6">
