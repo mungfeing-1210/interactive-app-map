@@ -291,7 +291,7 @@ const GamesTab: React.FC = () => {
 };
 
 // Profile Tab Component
-const ProfileTab: React.FC<{ isCompleted?: boolean }> = ({ isCompleted }) => {
+const ProfileTab: React.FC<{ isCompleted?: boolean; isBrandNew?: boolean }> = ({ isCompleted, isBrandNew }) => {
   const { userData } = useApp();
   const currentMemoryIndex = 1250; // 模拟记忆力指数
   const trainingDays = 1; // 第一天训练
@@ -332,7 +332,18 @@ const ProfileTab: React.FC<{ isCompleted?: boolean }> = ({ isCompleted }) => {
       </div>
 
       <div className="flex-1 overflow-y-auto p-6 pb-4">
-        {/* 签到/连胜模块 */}
+        {/* 新手未开始：隐藏签到与指数，显示引导卡 */}
+        {isBrandNew ? (
+          <div className="bg-card rounded-3xl p-6 shadow-medium mb-6">
+            <h2 className="text-xl font-bold text-foreground mb-2">欢迎加入记忆力训练</h2>
+            <p className="text-sm text-muted-foreground mb-4">还没有开始记录。请先在“今日”完成首次训练，我们将为你建立能力基线。</p>
+            <div className="flex items-center space-x-3 text-sm text-muted-foreground">
+              <CheckCircle className="w-4 h-4 text-muted-foreground" />
+              <span>完成第 1 次训练后解锁签到与记忆力指数</span>
+            </div>
+          </div>
+        ) : (
+        /* 签到/连胜模块 */
         <div className="bg-card rounded-3xl p-6 shadow-medium mb-6">
           <h2 className="text-xl font-bold text-foreground text-center mb-2">训练连胜</h2>
           <p className="text-sm text-muted-foreground text-center mb-4">
@@ -357,10 +368,10 @@ const ProfileTab: React.FC<{ isCompleted?: boolean }> = ({ isCompleted }) => {
           >
             {isCompleted ? '今日已完成' : '开始今日训练'}
           </button>
-        </div>
+        </div>)
 
         {/* 记忆力指数（简化卡片，可点击查看趋势） */}
-        <button
+        {!isBrandNew && (<button
           onClick={() => navigateToScreen('training-progress')}
           className="w-full text-left bg-card rounded-3xl p-6 shadow-medium mb-6 hover:bg-muted/50 transition-colors"
         >
@@ -371,7 +382,7 @@ const ProfileTab: React.FC<{ isCompleted?: boolean }> = ({ isCompleted }) => {
             </div>
             <div className="text-4xl font-bold text-primary">{currentMemoryIndex}</div>
           </div>
-        </button>
+        </button>)}
 
         {/* 记忆能力维度细分 - 已取消 */}
 
@@ -407,17 +418,19 @@ const ProfileTab: React.FC<{ isCompleted?: boolean }> = ({ isCompleted }) => {
 
 // Main App Screen Component
 const MainAppScreen: React.FC = () => {
-  const { presetActiveTab, presetIsDemoCompleted, clearPresets } = useApp();
+  const { presetActiveTab, presetIsDemoCompleted, presetIsBrandNew, clearPresets } = useApp();
   const [activeTab, setActiveTab] = useState(presetActiveTab || 'today');
   const [isDemoCompleted, setIsDemoCompleted] = useState(!!presetIsDemoCompleted);
+  const [isBrandNew, setIsBrandNew] = useState(!!presetIsBrandNew);
 
   useEffect(() => {
-    if (presetActiveTab !== undefined || presetIsDemoCompleted !== undefined) {
+    if (presetActiveTab !== undefined || presetIsDemoCompleted !== undefined || presetIsBrandNew !== undefined) {
       setActiveTab(presetActiveTab || 'today');
       setIsDemoCompleted(!!presetIsDemoCompleted);
+      setIsBrandNew(!!presetIsBrandNew);
       clearPresets();
     }
-  }, [presetActiveTab, presetIsDemoCompleted, clearPresets]);
+  }, [presetActiveTab, presetIsDemoCompleted, presetIsBrandNew, clearPresets]);
 
   const tabs = [
     { id: 'today', label: '今日', labelCn: '今日', icon: Home },
@@ -432,7 +445,7 @@ const MainAppScreen: React.FC = () => {
       case 'games':
         return <GamesTab />;
       case 'profile':
-        return <ProfileTab isCompleted={isDemoCompleted} />;
+        return <ProfileTab isCompleted={isDemoCompleted} isBrandNew={isBrandNew} />;
       default:
         return <TodayTab isDemoCompleted={isDemoCompleted} onToggleDemo={() => setIsDemoCompleted(!isDemoCompleted)} />;
     }

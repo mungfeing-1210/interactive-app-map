@@ -129,20 +129,27 @@ const NavigationScreen: React.FC = () => {
               <div className="text-success font-semibold mb-2 group-hover:scale-105 transition-transform">游戏体验</div>
               <div className="text-sm text-muted-foreground">直接体验游戏流程</div>
             </button>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <button
-                onClick={() => { setPresets('profile', false); navigateToScreen('main-app'); }}
+                onClick={() => { setPresets('profile', false, false); navigateToScreen('main-app'); }}
                 className="p-4 bg-accent/10 rounded-2xl hover:bg-accent/20 transition-colors group"
               >
                 <div className="text-accent font-semibold mb-1 group-hover:scale-105 transition-transform">主应用（未完成）</div>
                 <div className="text-xs text-muted-foreground">打开 我的 页，未完成状态</div>
               </button>
               <button
-                onClick={() => { setPresets('profile', true); navigateToScreen('main-app'); }}
+                onClick={() => { setPresets('profile', true, false); navigateToScreen('main-app'); }}
                 className="p-4 bg-accent/10 rounded-2xl hover:bg-accent/20 transition-colors group"
               >
                 <div className="text-accent font-semibold mb-1 group-hover:scale-105 transition-transform">主应用（已完成）</div>
                 <div className="text-xs text-muted-foreground">打开 我的 页，完成状态</div>
+              </button>
+              <button
+                onClick={() => { setPresets('profile', false, true); navigateToScreen('main-app'); }}
+                className="p-4 bg-accent/10 rounded-2xl hover:bg-accent/20 transition-colors group"
+              >
+                <div className="text-accent font-semibold mb-1 group-hover:scale-105 transition-transform">主应用（新手）</div>
+                <div className="text-xs text-muted-foreground">无签到、无记忆力指数，引导首次训练</div>
               </button>
             </div>
           </div>

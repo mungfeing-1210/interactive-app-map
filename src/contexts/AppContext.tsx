@@ -49,7 +49,8 @@ interface AppContextType {
   // 预设主应用初始态（用于导航页直达不同状态）
   presetActiveTab?: 'today' | 'games' | 'profile';
   presetIsDemoCompleted?: boolean;
-  setPresets: (tab?: 'today' | 'games' | 'profile', isCompleted?: boolean) => void;
+  presetIsBrandNew?: boolean;
+  setPresets: (tab?: 'today' | 'games' | 'profile', isCompleted?: boolean, isBrandNew?: boolean) => void;
   clearPresets: () => void;
 }
 
@@ -80,6 +81,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const [userData, setUserDataState] = useState<UserData>(DEFAULT_USER_DATA);
   const [presetActiveTab, setPresetActiveTab] = useState<'today' | 'games' | 'profile' | undefined>(undefined);
   const [presetIsDemoCompleted, setPresetIsDemoCompleted] = useState<boolean | undefined>(undefined);
+  const [presetIsBrandNew, setPresetIsBrandNew] = useState<boolean | undefined>(undefined);
 
   const { currentStep, totalSteps, showProgress } = useMemo(() => {
     const stepIndex = ONBOARDING_STEPS.indexOf(currentScreen);
@@ -118,14 +120,16 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     setCurrentScreen(screen);
   };
 
-  const setPresets = (tab?: 'today' | 'games' | 'profile', isCompleted?: boolean) => {
+  const setPresets = (tab?: 'today' | 'games' | 'profile', isCompleted?: boolean, isBrandNew?: boolean) => {
     setPresetActiveTab(tab);
     setPresetIsDemoCompleted(isCompleted);
+    setPresetIsBrandNew(isBrandNew);
   };
 
   const clearPresets = () => {
     setPresetActiveTab(undefined);
     setPresetIsDemoCompleted(undefined);
+    setPresetIsBrandNew(undefined);
   };
 
   return (
@@ -141,6 +145,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       showProgress,
       presetActiveTab,
       presetIsDemoCompleted,
+      presetIsBrandNew,
       setPresets,
       clearPresets
     }}>
