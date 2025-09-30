@@ -46,6 +46,11 @@ interface AppContextType {
   currentStep: number;
   totalSteps: number;
   showProgress: boolean;
+  // 预设主应用初始态（用于导航页直达不同状态）
+  presetActiveTab?: 'today' | 'games' | 'profile';
+  presetIsDemoCompleted?: boolean;
+  setPresets: (tab?: 'today' | 'games' | 'profile', isCompleted?: boolean) => void;
+  clearPresets: () => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -73,6 +78,8 @@ const DEFAULT_USER_DATA: UserData = {
 export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [currentScreen, setCurrentScreen] = useState<Screen>('navigation');
   const [userData, setUserDataState] = useState<UserData>(DEFAULT_USER_DATA);
+  const [presetActiveTab, setPresetActiveTab] = useState<'today' | 'games' | 'profile' | undefined>(undefined);
+  const [presetIsDemoCompleted, setPresetIsDemoCompleted] = useState<boolean | undefined>(undefined);
 
   const { currentStep, totalSteps, showProgress } = useMemo(() => {
     const stepIndex = ONBOARDING_STEPS.indexOf(currentScreen);
@@ -111,6 +118,16 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     setCurrentScreen(screen);
   };
 
+  const setPresets = (tab?: 'today' | 'games' | 'profile', isCompleted?: boolean) => {
+    setPresetActiveTab(tab);
+    setPresetIsDemoCompleted(isCompleted);
+  };
+
+  const clearPresets = () => {
+    setPresetActiveTab(undefined);
+    setPresetIsDemoCompleted(undefined);
+  };
+
   return (
     <AppContext.Provider value={{
       currentScreen,
@@ -121,7 +138,11 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       resetTrainingProgress,
       currentStep,
       totalSteps,
-      showProgress
+      showProgress,
+      presetActiveTab,
+      presetIsDemoCompleted,
+      setPresets,
+      clearPresets
     }}>
       {children}
     </AppContext.Provider>

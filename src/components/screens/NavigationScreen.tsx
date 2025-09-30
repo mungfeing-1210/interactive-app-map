@@ -3,7 +3,7 @@ import { useApp } from '../../contexts/AppContext';
 import { Smartphone, Play } from 'lucide-react';
 
 const NavigationScreen: React.FC = () => {
-  const { navigateToScreen } = useApp();
+  const { navigateToScreen, setPresets } = useApp();
 
   const screenSteps = [
     { id: 'welcome', title: '欢迎页', screen: 'welcome' as const, category: '引导流程' },
@@ -129,13 +129,22 @@ const NavigationScreen: React.FC = () => {
               <div className="text-success font-semibold mb-2 group-hover:scale-105 transition-transform">游戏体验</div>
               <div className="text-sm text-muted-foreground">直接体验游戏流程</div>
             </button>
-            <button
-              onClick={() => navigateToScreen('main-app')}
-              className="p-4 bg-accent/10 rounded-2xl hover:bg-accent/20 transition-colors group"
-            >
-              <div className="text-accent font-semibold mb-2 group-hover:scale-105 transition-transform">主应用界面</div>
-              <div className="text-sm text-muted-foreground">体验完整主功能</div>
-            </button>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <button
+                onClick={() => { setPresets('profile', false); navigateToScreen('main-app'); }}
+                className="p-4 bg-accent/10 rounded-2xl hover:bg-accent/20 transition-colors group"
+              >
+                <div className="text-accent font-semibold mb-1 group-hover:scale-105 transition-transform">主应用（未完成）</div>
+                <div className="text-xs text-muted-foreground">打开 我的 页，未完成状态</div>
+              </button>
+              <button
+                onClick={() => { setPresets('profile', true); navigateToScreen('main-app'); }}
+                className="p-4 bg-accent/10 rounded-2xl hover:bg-accent/20 transition-colors group"
+              >
+                <div className="text-accent font-semibold mb-1 group-hover:scale-105 transition-transform">主应用（已完成）</div>
+                <div className="text-xs text-muted-foreground">打开 我的 页，完成状态</div>
+              </button>
+            </div>
           </div>
         </div>
       </div>

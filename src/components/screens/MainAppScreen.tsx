@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Home, GamepadIcon, User, Flame, Target, Brain, Clock, TrendingUp, Play, Award, Calendar, Bell, BarChart3, CheckCircle, Ghost, ShoppingCart, Phone, Droplet, GitMerge } from 'lucide-react';
 import { useApp } from '../../contexts/AppContext';
 
@@ -291,7 +291,7 @@ const GamesTab: React.FC = () => {
 };
 
 // Profile Tab Component
-const ProfileTab: React.FC = () => {
+const ProfileTab: React.FC<{ isCompleted?: boolean }> = ({ isCompleted }) => {
   const { userData } = useApp();
   const currentMemoryIndex = 1250; // 模拟记忆力指数
   const trainingDays = 1; // 第一天训练
@@ -335,7 +335,9 @@ const ProfileTab: React.FC = () => {
         {/* 签到/连胜模块 */}
         <div className="bg-card rounded-3xl p-6 shadow-medium mb-6">
           <h2 className="text-xl font-bold text-foreground text-center mb-2">训练连胜</h2>
-          <p className="text-sm text-muted-foreground text-center mb-4">在“今日”完成 3 个训练，开始点亮你的🔥连胜</p>
+          <p className="text-sm text-muted-foreground text-center mb-4">
+            {isCompleted ? '今日训练已完成，明天继续保持！' : '在“今日”完成 3 个训练，开始点亮你的🔥连胜'}
+          </p>
 
           {/* 周火焰指示 */}
           <div className="flex items-center justify-between max-w-sm mx-auto mt-1 mb-4 px-2">
@@ -347,8 +349,13 @@ const ProfileTab: React.FC = () => {
             ))}
           </div>
 
-          <button className="btn-gradient w-full py-3 rounded-xl text-base font-semibold">
-            开始今日训练
+          <button
+            disabled={!!isCompleted}
+            className={`w-full py-3 rounded-xl text-base font-semibold ${
+              isCompleted ? 'bg-muted text-muted-foreground cursor-not-allowed' : 'btn-gradient'
+            }`}
+          >
+            {isCompleted ? '今日已完成' : '开始今日训练'}
           </button>
         </div>
 
@@ -360,7 +367,7 @@ const ProfileTab: React.FC = () => {
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-lg font-semibold text-foreground mb-1">记忆力指数</h2>
-              <p className="text-xs text-muted-foreground">点击查看趋势</p>
+              <p className="text-xs text-muted-foreground">{isCompleted ? '今日训练已完成，点击查看趋势' : '点击查看趋势'}</p>
             </div>
             <div className="text-4xl font-bold text-primary">{currentMemoryIndex}</div>
           </div>
@@ -400,8 +407,17 @@ const ProfileTab: React.FC = () => {
 
 // Main App Screen Component
 const MainAppScreen: React.FC = () => {
-  const [activeTab, setActiveTab] = useState('today');
-  const [isDemoCompleted, setIsDemoCompleted] = useState(false);
+  const { presetActiveTab, presetIsDemoCompleted, clearPresets } = useApp();
+  const [activeTab, setActiveTab] = useState(presetActiveTab || 'today');
+  const [isDemoCompleted, setIsDemoCompleted] = useState(!!presetIsDemoCompleted);
+
+  useEffect(() => {
+    if (presetActiveTab !== undefined || presetIsDemoCompleted !== undefined) {
+      setActiveTab(presetActiveTab || 'today');
+      setIsDemoCompleted(!!presetIsDemoCompleted);
+      clearPresets();
+    }
+  }, [presetActiveTab, presetIsDemoCompleted, clearPresets]);
 
   const tabs = [
     { id: 'today', label: '今日', labelCn: '今日', icon: Home },
@@ -416,7 +432,7 @@ const MainAppScreen: React.FC = () => {
       case 'games':
         return <GamesTab />;
       case 'profile':
-        return <ProfileTab />;
+        return <ProfileTab isCompleted={isDemoCompleted} />;
       default:
         return <TodayTab isDemoCompleted={isDemoCompleted} onToggleDemo={() => setIsDemoCompleted(!isDemoCompleted)} />;
     }
