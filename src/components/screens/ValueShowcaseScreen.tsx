@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useApp } from '../../contexts/AppContext';
 import { Target, Zap, TrendingUp, ChevronRight } from 'lucide-react';
 
 const ValueShowcaseScreen: React.FC = () => {
   const { navigateToScreen } = useApp();
-  const [activeIndex, setActiveIndex] = useState(0);
 
   const items = [
     {
@@ -27,25 +26,24 @@ const ValueShowcaseScreen: React.FC = () => {
     }
   ];
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setActiveIndex(prev => (prev + 1) % items.length);
-    }, 2200);
-    return () => clearInterval(timer);
-  }, []);
-
-  const ActiveIcon = items[activeIndex].icon;
-
   return (
     <div className="mobile-screen bg-background flex flex-col h-full">
-      {/* 内容 */}
-      <div className="flex-1 flex flex-col items-center justify-center px-8 text-center animate-fade-in">
-        <div className={`w-32 h-32 rounded-full bg-gradient-to-br ${items[activeIndex].color} flex items-center justify-center mb-8 animate-scale-in`}>
-          <ActiveIcon className="w-16 h-16 text-foreground" />
+      {/* 内容：三项同屏展示 */}
+      <div className="flex-1 px-8 py-10 overflow-y-auto">
+        <div className="grid grid-cols-1 gap-6">
+          {items.map((it, idx) => {
+            const Icon = it.icon;
+            return (
+              <div key={idx} className="bg-card rounded-3xl p-6 shadow-medium text-center animate-fade-in" style={{ animationDelay: `${idx * 0.06}s` }}>
+                <div className={`w-24 h-24 mx-auto rounded-full bg-gradient-to-br ${it.color} flex items-center justify-center mb-5 animate-scale-in`}>
+                  <Icon className="w-12 h-12 text-foreground" />
+                </div>
+                <h3 className="text-xl font-bold text-foreground mb-2">{it.title}</h3>
+                <p className="text-muted-foreground">{it.subtitle}</p>
+              </div>
+            );
+          })}
         </div>
-
-        <h2 className="text-2xl font-bold text-foreground mb-3">{items[activeIndex].title}</h2>
-        <p className="text-muted-foreground text-lg">{items[activeIndex].subtitle}</p>
       </div>
 
       {/* CTA 按钮 */}
