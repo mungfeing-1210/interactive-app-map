@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Home, GamepadIcon, User, Flame, Target, Brain, Clock, TrendingUp, Play, Award, Calendar, Bell, BarChart3, CheckCircle, Ghost, ShoppingCart, Phone, Droplet, GitMerge } from 'lucide-react';
-import { Progress } from '../ui/progress';
 import { useApp } from '../../contexts/AppContext';
 
 // Today Tab Component
@@ -297,11 +296,6 @@ const ProfileTab: React.FC = () => {
   const currentMemoryIndex = 1250; // 模拟记忆力指数
   const trainingDays = 1; // 第一天训练
 
-  const memoryAbilities = [
-    { name: '空间记忆', score: 85, color: 'bg-primary' },
-    { name: '序列记忆', score: 78, color: 'bg-accent' },
-    { name: '视觉再认', score: 92, color: 'bg-success' }
-  ];
 
   const achievements = [
     {
@@ -372,23 +366,7 @@ const ProfileTab: React.FC = () => {
           </div>
         </button>
 
-        {/* Memory Ability Breakdown */}
-        <div className="mb-6">
-          <h2 className="text-lg font-semibold text-foreground mb-4">记忆能力维度细分</h2>
-          <div className="bg-card rounded-3xl p-6 shadow-medium">
-            <div className="space-y-4">
-              {memoryAbilities.map((ability, index) => (
-                <div key={index}>
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="text-sm font-medium text-foreground">{ability.name}</span>
-                    <span className="text-sm font-bold text-primary">{ability.score}%</span>
-                  </div>
-                  <Progress value={ability.score} className="h-2" />
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+        {/* 记忆能力维度细分 - 已取消 */}
 
         {/* Achievement Badges */}
         <div className="mb-6">
