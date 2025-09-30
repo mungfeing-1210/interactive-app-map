@@ -28,18 +28,18 @@ const ValueShowcaseScreen: React.FC = () => {
 
   return (
     <div className="mobile-screen bg-background flex flex-col h-full">
-      {/* 内容：三项同屏展示 */}
-      <div className="flex-1 px-8 py-10 overflow-y-auto">
-        <div className="grid grid-cols-1 gap-6">
+      {/* 内容：三项同屏展示（压缩留白以适配一屏显示） */}
+      <div className="flex-1 px-6 py-6">
+        <div className="grid grid-cols-1 gap-4">
           {items.map((it, idx) => {
             const Icon = it.icon;
             return (
-              <div key={idx} className="bg-card rounded-3xl p-6 shadow-medium text-center animate-fade-in" style={{ animationDelay: `${idx * 0.06}s` }}>
-                <div className={`w-24 h-24 mx-auto rounded-full bg-gradient-to-br ${it.color} flex items-center justify-center mb-5 animate-scale-in`}>
-                  <Icon className="w-12 h-12 text-foreground" />
+              <div key={idx} className="bg-card rounded-2xl p-4 shadow-medium text-center animate-fade-in" style={{ animationDelay: `${idx * 0.06}s` }}>
+                <div className={`w-20 h-20 mx-auto rounded-full bg-gradient-to-br ${it.color} flex items-center justify-center mb-4 animate-scale-in`}>
+                  <Icon className="w-10 h-10 text-foreground" />
                 </div>
-                <h3 className="text-xl font-bold text-foreground mb-2">{it.title}</h3>
-                <p className="text-muted-foreground">{it.subtitle}</p>
+                <h3 className="text-lg font-bold text-foreground mb-1">{it.title}</h3>
+                <p className="text-sm text-muted-foreground">{it.subtitle}</p>
               </div>
             );
           })}
