@@ -38,16 +38,6 @@ const ValueShowcaseScreen: React.FC = () => {
 
   return (
     <div className="mobile-screen bg-background flex flex-col h-full">
-      {/* 进度指示点 */}
-      <div className="flex justify-center space-x-2 pt-8 pb-4 flex-shrink-0">
-        {items.map((_, index) => (
-          <div
-            key={index}
-            className={`w-2 h-2 rounded-full transition-smooth ${index === activeIndex ? 'bg-primary' : 'bg-muted'}`}
-          />
-        ))}
-      </div>
-
       {/* 内容 */}
       <div className="flex-1 flex flex-col items-center justify-center px-8 text-center animate-fade-in">
         <div className={`w-32 h-32 rounded-full bg-gradient-to-br ${items[activeIndex].color} flex items-center justify-center mb-8 animate-scale-in`}>
@@ -56,14 +46,6 @@ const ValueShowcaseScreen: React.FC = () => {
 
         <h2 className="text-2xl font-bold text-foreground mb-3">{items[activeIndex].title}</h2>
         <p className="text-muted-foreground text-lg">{items[activeIndex].subtitle}</p>
-
-        {/* 小型动画条 */}
-        <div className="mt-10 w-full max-w-xs h-2 bg-muted rounded-full overflow-hidden">
-          <div
-            className="h-full bg-primary transition-all duration-700"
-            style={{ width: `${((activeIndex + 1) / items.length) * 100}%` }}
-          />
-        </div>
       </div>
 
       {/* CTA 按钮 */}
