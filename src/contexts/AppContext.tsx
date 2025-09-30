@@ -4,6 +4,7 @@ type Screen =
   | 'navigation'
   | 'welcome'
   | 'value-carousel'
+  | 'value-showcase'
   | 'info-collection'
   | 'goal-selection'
   | 'pain-point-resonance'
@@ -50,7 +51,7 @@ interface AppContextType {
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 const ONBOARDING_STEPS: Screen[] = [
-  'value-carousel',
+  'value-showcase',
   'info-collection',
   'goal-selection',
   'pain-point-resonance',

@@ -36,10 +36,11 @@ const WelcomeScreen: React.FC = () => {
         </div>
       </div>
 
-      {/* CTA Button - Fixed at bottom */}
+      {/* CTA Button - Fixed at bottom */
+      }
       <div className="p-8 flex-shrink-0">
         <button 
-          onClick={() => navigateToScreen('value-carousel')}
+          onClick={() => navigateToScreen('value-showcase')}
           className="w-full bg-white text-blue-500 font-bold py-4 rounded-2xl shadow-large transition-smooth hover:shadow-glow active:scale-95"
         >
           开始体验

@@ -7,7 +7,7 @@ const NavigationScreen: React.FC = () => {
 
   const screenSteps = [
     { id: 'welcome', title: '欢迎页', screen: 'welcome' as const, category: '引导流程' },
-    { id: 'value-carousel', title: '价值展示', screen: 'value-carousel' as const, category: '引导流程' },
+    { id: 'value-showcase', title: '价值展示（合并）', screen: 'value-showcase' as const, category: '引导流程' },
     { id: 'info-collection', title: '信息采集', screen: 'info-collection' as const, category: '引导流程' },
     { id: 'goal-selection', title: '目标选择', screen: 'goal-selection' as const, category: '引导流程' },
     { id: 'pain-point-resonance', title: '痛点共鸣', screen: 'pain-point-resonance' as const, category: '引导流程' },

@@ -19,6 +19,7 @@ import GoalSettingScreen from './screens/GoalSettingScreen';
 import StreakCelebrationScreen from './screens/StreakCelebrationScreen';
 import MainAppScreen from './screens/MainAppScreen';
 import CompletedMainScreen from './screens/CompletedMainScreen';
+import ValueShowcaseScreen from './screens/ValueShowcaseScreen';
 
 const PrototypeContent: React.FC = () => {
   const { currentScreen } = useApp();
@@ -28,6 +29,7 @@ const PrototypeContent: React.FC = () => {
       case 'navigation': return <NavigationScreen />;
       case 'welcome': return <WelcomeScreen />;
       case 'value-carousel': return <ValueCarouselScreen />;
+      case 'value-showcase': return <ValueShowcaseScreen />;
       case 'info-collection': return <InfoCollectionScreen />;
       case 'goal-selection': return <GoalSelectionScreen />;
       case 'pain-point-resonance': return <PainPointResonanceScreen />;
