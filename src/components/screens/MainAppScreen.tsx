@@ -338,6 +338,26 @@ const ProfileTab: React.FC = () => {
       </div>
 
       <div className="flex-1 overflow-y-auto p-6 pb-4">
+        {/* 签到/连胜模块 */}
+        <div className="bg-card rounded-3xl p-6 shadow-medium mb-6">
+          <h2 className="text-xl font-bold text-foreground text-center mb-2">训练连胜</h2>
+          <p className="text-sm text-muted-foreground text-center mb-4">在“今日”完成 3 个训练，开始点亮你的🔥连胜</p>
+
+          {/* 周火焰指示 */}
+          <div className="flex items-center justify-between max-w-sm mx-auto mt-1 mb-4 px-2">
+            {['S','M','T','W','T','F','S'].map((d, idx) => (
+              <div key={d} className="flex flex-col items-center w-8">
+                <Flame className={`w-5 h-5 ${idx < (userData.streakDays || 0) ? 'text-primary' : 'text-muted-foreground/30'}`} />
+                <span className="text-[10px] text-muted-foreground mt-1">{d}</span>
+              </div>
+            ))}
+          </div>
+
+          <button className="btn-gradient w-full py-3 rounded-xl text-base font-semibold">
+            开始今日训练
+          </button>
+        </div>
+
         {/* 记忆力指数卡片 */}
         <div className="bg-card rounded-3xl p-6 shadow-medium mb-6">
           <h2 className="text-lg font-semibold text-foreground mb-4">记忆力指数</h2>
